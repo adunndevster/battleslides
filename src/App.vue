@@ -6,7 +6,8 @@
 
 <style lang="less">
 @import url('../node_modules/reveal.js/css/reveal.css');
-@import url('../node_modules/reveal.js/css/theme/white.css');
+@import url('../node_modules/reveal.js/css/theme/solarized.css');
+@import url('../node_modules/bulma/css/bulma.css');
 
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -26,4 +27,6 @@
     }
   }
 }
+
+.reveal section img { background:none; border:none; box-shadow:none; }
 </style>

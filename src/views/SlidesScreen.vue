@@ -7,12 +7,21 @@
         </section>
 
         <section>
-            <h1>{{Slide2Content}}</h1>
+            <h2>{{Slide2Content}}</h2>
             
         </section>
 
         <section>
-          <h1>Chart slide</h1>
+          <h3>{{MainSubject}} and {{ChartMeasure}}</h3>
+          <div class="columns is-vcentered">
+            <div class="column">{{MainSubject}}</div>
+            <div class="column is-three-quarters"><img src="@/assets/line-up.svg"/></div>
+          </div>
+          <div class="columns">
+            <div class="column"></div>
+            <div class="column is-three-quarters">{{ChartMeasure}}</div>
+          </div>
+          
         </section>
 
         <section>
@@ -82,7 +91,7 @@ export default {
       Cons: slideData.Cons,
       Slide1Content: "",
       Slide2Content: "",
-
+      ChartMeasure: ""
     }
   },
   components: {
@@ -90,6 +99,7 @@ export default {
   mounted() {
     this.setupSlide1();
     this.setupSlide2();
+    this.setupSlide3();
 
     Reveal.initialize({
       controls: false
@@ -109,7 +119,15 @@ export default {
       const randAction = this.StatementActions[Math.floor(Math.random() * this.StatementActions.length)];
       const randStatement  = this.SlideStatements[Math.floor(Math.random() * this.SlideStatements.length)];
       this.Slide2Content = randStatement.replace(/---/g, this.MainSubject).replace(/___/g, randAction);
+    },
+    setupSlide3() {
+      this.ChartMeasure = this.ChartMeasures[Math.floor(Math.random() * this.ChartMeasures.length)];
     }
   }
 }
 </script>
+
+
+<style lang="less">
+  
+</style>

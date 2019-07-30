@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "animate.css": "^3.7.2",
+    "bulma": "^0.7.5",
     "core-js": "^2.6.5",
     "eagle.js": "^0.6.0",
     "pug-plain-loader": "^1.0.0",
