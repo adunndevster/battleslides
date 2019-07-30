@@ -7,7 +7,7 @@
         </section>
 
         <section>
-            <h1>Statement Slide</h1>
+            <h1>{{Slide2Content}}</h1>
             
         </section>
 
@@ -55,7 +55,7 @@ export default {
       {
         "TitleActions":["Getting Started with ","Growing Your Business with ",", Listening and Learning","... Isn't It About Time?","Getting Down and Dirty With ","What Happens When you Try To Eat "," are for N00BS!",", Seeing is Believing",", let's DIVE IN!","... a 500 Foot View!","What My Parents Can Learn From "," Are as Overated as High Heels or Tupes",", and Getting Over Your Ex.","... Let's Get Effin Rich!",", or \"What the Chinese Do.\"",", Nobody Loves 'Em More Than Me. - Donald Trump","Engaging in Dangerous Acts with ",", Get the Heck Out of My Vagina!",", Am I Right!?","How to Get More Out of Your ","... Don't They Have Puncahble Faces?","Stop All Be Crawlin' on Your Bellies,  ",", You Got Played!"," and Other Iffy Choices","Unconventional Methods of Childcare Using ","","","","","","","","",""],
         "TitleSubjects":["Airlines","Airplanes","Automobiles","Ballerinas","Basketball players","Casinos","Cats","Computers","Cupcakes","Dogs","Fathers","Friends","Giraffes","Hotels","Mothers","Robots","Rock Bands","Sports","Tacos","Warrior princesses","Weddings","Elves","Bankers","Religions","Dolphins","Bakers","Hipsters","Fitness Instructors","Gamers","Hedgehogs and Plumbers","Children","Bush and Obama","Hemerhoids","Pencil Necks"],
-        "SlideStatements":["Now is the time for ___ to ___.","If only ___ would ___, we wouldn't be in this situation.","I think ___ should ___.","Who agrees that ___ should ___?","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],
+        "SlideStatements":["Now is the time for --- to ___.","If only --- would ___, we wouldn't be in this situation.","I think --- should ___.","Who agrees that --- should ___?","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],
         "StatementActions":["jump up and down until all the marbles fall out","dance, dance, dance, and never stop","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],
         "ChartTypes":["Pie","Bar","Line","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],
         "ChartMeasures":["My angst","Happiness","Cholesterol","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],
@@ -72,6 +72,7 @@ export default {
     }
 
     return {
+      MainSubject: "",
       TitleActions: slideData.TitleActions,
       TitleSubjects: slideData.TitleSubjects,
       SlideStatements: slideData.SlideStatements,
@@ -79,13 +80,16 @@ export default {
       ChartMeasures: slideData.ChartMeasures,
       Pros: slideData.Pros,
       Cons: slideData.Cons,
-      Slide1Content: "hhh"
+      Slide1Content: "",
+      Slide2Content: "",
+
     }
   },
   components: {
   },
   mounted() {
     this.setupSlide1();
+    this.setupSlide2();
 
     Reveal.initialize({
       controls: false
@@ -93,12 +97,18 @@ export default {
   },
   methods: {
     setupSlide1() {
-      const randTitleAction = this.TitleActions[Math.floor(Math.random() * this.TitleActions.length)];
+      const randTitleAction = this.TitleActions[Math.floor(Math.random() * this.SlideStatements.length)];
       const randTitleSubject = this.TitleSubjects[Math.floor(Math.random() * this.TitleSubjects.length)];
+      this.MainSubject = randTitleSubject;
       this.Slide1Content = (randTitleAction.indexOf(' ') === 0 || 
                             randTitleAction.indexOf('.') === 0 || 
                             randTitleAction.indexOf(',') === 0) ? randTitleSubject + randTitleAction : randTitleAction + randTitleSubject;
 
+    },
+    setupSlide2() {
+      const randAction = this.StatementActions[Math.floor(Math.random() * this.StatementActions.length)];
+      const randStatement  = this.SlideStatements[Math.floor(Math.random() * this.SlideStatements.length)];
+      this.Slide2Content = randStatement.replace(/---/g, this.MainSubject).replace(/___/g, randAction);
     }
   }
 }
