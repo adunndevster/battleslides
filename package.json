@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "deploy": "npm run build; push-dir --dir=dist --branch=gh-pages --cleanup"
   },
   "dependencies": {
     "animate.css": "^3.7.2",
@@ -27,6 +28,7 @@
     "less-loader": "^4.1.0",
     "pug": "^2.0.4",
     "pug-loader": "^2.4.0",
+    "push-dir": "^0.4.1",
     "typescript": "^3.4.3",
     "vue-template-compiler": "^2.6.10"
   }
