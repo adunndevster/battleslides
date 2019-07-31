@@ -15,7 +15,7 @@
           <h3>{{MainSubject}} and {{ChartMeasure}}</h3>
           <div class="columns is-vcentered">
             <div class="column">{{MainSubject}}</div>
-            <div class="column is-three-quarters"><img src="@/assets/line-up.svg"/></div>
+            <div class="column is-three-quarters"><img :src="require(`@/assets/${ChartType}`)"/></div>
           </div>
           <div class="columns">
             <div class="column"></div>
@@ -66,7 +66,7 @@ export default {
         "TitleSubjects":["Airlines","Airplanes","Automobiles","Ballerinas","Basketball players","Casinos","Cats","Computers","Cupcakes","Dogs","Fathers","Friends","Giraffes","Hotels","Mothers","Robots","Rock Bands","Sports","Tacos","Warrior princesses","Weddings","Elves","Bankers","Religions","Dolphins","Bakers","Hipsters","Fitness Instructors","Gamers","Hedgehogs and Plumbers","Children","Bush and Obama","Hemerhoids","Pencil Necks"],
         "SlideStatements":["Now is the time for --- to ___.","If only --- would ___, we wouldn't be in this situation.","I think --- should ___.","Who agrees that --- should ___?","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],
         "StatementActions":["jump up and down until all the marbles fall out","dance, dance, dance, and never stop","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],
-        "ChartTypes":["Pie","Bar","Line","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],
+        "ChartTypes":["line-up.svg","line-down.svg","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],
         "ChartMeasures":["My angst","Happiness","Cholesterol","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],
         "Pros":["Cost effective","Aid in digestion","Can be sexy","Aphrodesiac","Appetite suppressant","Earns trust","Attracts friends","Good flame retardent","Cuter than a kitten","Can help you be an influencer","Gotten me out of more than one tight spot","Libido alert!","","","","","","","","","","","","","","","","","","","","","",""],
         "Cons":["Lead to addiction","Cause weight gain","Expensive","Lower your social standing","Can cause bloating","May lead to instant fame","Can test positive for diahrea","May cause the Lord to smite you","","","","","","","","","","","","","","","","","","","","","","","","","",""]
@@ -86,12 +86,14 @@ export default {
       TitleSubjects: slideData.TitleSubjects,
       SlideStatements: slideData.SlideStatements,
       StatementActions: slideData.StatementActions,
+      ChartTypes: slideData.ChartTypes,
       ChartMeasures: slideData.ChartMeasures,
       Pros: slideData.Pros,
       Cons: slideData.Cons,
       Slide1Content: "",
       Slide2Content: "",
-      ChartMeasure: ""
+      ChartMeasure: "",
+      ChartType: "line-down.svg"
     }
   },
   components: {
@@ -122,6 +124,7 @@ export default {
     },
     setupSlide3() {
       this.ChartMeasure = this.ChartMeasures[Math.floor(Math.random() * this.ChartMeasures.length)];
+      this.ChartType = this.ChartTypes[Math.floor(Math.random() * this.ChartTypes.length)];
     }
   }
 }
