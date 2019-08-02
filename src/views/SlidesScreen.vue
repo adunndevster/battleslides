@@ -25,7 +25,27 @@
         </section>
 
         <section>
-          <h1>Pros/Cons</h1>
+          <h2>{{MainSubject}}</h2>
+          <div class="columns">
+            <h3 class="column">Pros</h3>
+            <h3 class="column">Cons</h3>
+          </div>
+          <div class="columns">
+            <div class="column">
+              <ul>
+                <li class="fragment">{{RandomPros[0]}}</li>
+                <li class="fragment">{{RandomPros[1]}}</li>
+                <li class="fragment">{{RandomPros[2]}}</li>
+              </ul>  
+            </div>
+            <div class="column">
+              <ul>
+                <li class="fragment">{{RandomCons[0]}}</li>
+                <li class="fragment">{{RandomCons[1]}}</li>
+                <li class="fragment">{{RandomCons[2]}}</li>
+              </ul>  
+            </div>
+          </div>
         </section>
 
         <section>
@@ -93,7 +113,9 @@ export default {
       Slide1Content: "",
       Slide2Content: "",
       ChartMeasure: "",
-      ChartType: "line-down.svg"
+      ChartType: "line-down.svg",
+      RandomPros: [],
+      RandomCons: []
     }
   },
   components: {
@@ -102,6 +124,7 @@ export default {
     this.setupSlide1();
     this.setupSlide2();
     this.setupSlide3();
+    this.setupSlide4();
 
     Reveal.initialize({
       controls: false
@@ -125,6 +148,13 @@ export default {
     setupSlide3() {
       this.ChartMeasure = this.ChartMeasures[Math.floor(Math.random() * this.ChartMeasures.length)];
       this.ChartType = this.ChartTypes[Math.floor(Math.random() * this.ChartTypes.length)];
+    },
+    setupSlide4() {
+      let shuffled = this.Pros.sort(() => 0.5 - Math.random());
+      this.RandomPros = shuffled.slice(0, 3);
+
+      shuffled = this.Cons.sort(() => 0.5 - Math.random());
+      this.RandomCons = shuffled.slice(0, 3);
     }
   }
 }
