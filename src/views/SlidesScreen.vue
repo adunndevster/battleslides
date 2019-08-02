@@ -53,12 +53,11 @@
         </section>
 
         <section>
-            <h1>3 Points</h1>
-            <p>Let's make some bullet points!</p>
+            <h3>{{PointHeader}}</h3>
             <ul>
-                <li class="fragment">Some info</li>
-                <li class="fragment">Some more info</li>
-                <li class="fragment">Some extra info</li>
+                <li class="fragment">{{RandomPoints[0]}}</li>
+                <li class="fragment">{{RandomPoints[1]}}</li>
+                <li class="fragment">{{RandomPoints[2]}}</li>
             </ul>
         </section>
 
@@ -89,7 +88,9 @@ export default {
         "ChartTypes":["line-up.svg","line-down.svg","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],
         "ChartMeasures":["My angst","Happiness","Cholesterol","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],
         "Pros":["Cost effective","Aid in digestion","Can be sexy","Aphrodesiac","Appetite suppressant","Earns trust","Attracts friends","Good flame retardent","Cuter than a kitten","Can help you be an influencer","Gotten me out of more than one tight spot","Libido alert!","","","","","","","","","","","","","","","","","","","","","",""],
-        "Cons":["Lead to addiction","Cause weight gain","Expensive","Lower your social standing","Can cause bloating","May lead to instant fame","Can test positive for diahrea","May cause the Lord to smite you","","","","","","","","","","","","","","","","","","","","","","","","","",""]
+        "Cons":["Lead to addiction","Cause weight gain","Expensive","Lower your social standing","Can cause bloating","May lead to instant fame","Can test positive for diahrea","May cause the Lord to smite you","","","","","","","","","","","","","","","","","","","","","","","","","",""],
+        "PointHeaders":["Some reasons to think about ___","I'll tell you what I think about ___","I happen to have a lot in common with ___","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],
+        "Points":["I once found a them in my bathroom","I like to present them to my grandma","They make for delicious appetizers","We should organize a trip to take some to the zoo!","It would be fun to get matching tattoos","Don't get me STARTED","Imagine being stuck in a closet with them and Tom Cruise","","","","","","","","","","","","","","","","","","","","","","","","","","",""]
       };
 
     for (var key in slideData) {
@@ -110,12 +111,16 @@ export default {
       ChartMeasures: slideData.ChartMeasures,
       Pros: slideData.Pros,
       Cons: slideData.Cons,
+      PointHeaders: slideData.PointHeaders,
+      Points: slideData.Points,
       Slide1Content: "",
       Slide2Content: "",
       ChartMeasure: "",
       ChartType: "line-down.svg",
       RandomPros: [],
-      RandomCons: []
+      RandomCons: [],
+      PointHeader: "",
+      RandomPoints: []
     }
   },
   components: {
@@ -125,6 +130,7 @@ export default {
     this.setupSlide2();
     this.setupSlide3();
     this.setupSlide4();
+    this.setupSlide5();
 
     Reveal.initialize({
       controls: false
@@ -155,6 +161,13 @@ export default {
 
       shuffled = this.Cons.sort(() => 0.5 - Math.random());
       this.RandomCons = shuffled.slice(0, 3);
+    },
+    setupSlide5() {
+      this.PointHeader = this.PointHeaders[Math.floor(Math.random() * this.PointHeaders.length)];
+      this.PointHeader = this.PointHeader.replace(/___/g, this.MainSubject)
+
+      const shuffled = this.Points.sort(() => 0.5 - Math.random());
+      this.RandomPoints = shuffled.slice(0, 3);
     }
   }
 }
