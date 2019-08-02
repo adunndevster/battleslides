@@ -49,7 +49,7 @@
         </section>
 
         <section>
-          <h1>Demonstration / Story</h1>
+          <h2>{{Demonstration}}</h2>
         </section>
 
         <section>
@@ -66,7 +66,7 @@
         </section>
 
         <section>
-          <h1>Conclusion...</h1>
+          <h1>{{Conclusion}}</h1>
         </section>
     </div>
 </div>
@@ -90,7 +90,10 @@ export default {
         "Pros":["Cost effective","Aid in digestion","Can be sexy","Aphrodesiac","Appetite suppressant","Earns trust","Attracts friends","Good flame retardent","Cuter than a kitten","Can help you be an influencer","Gotten me out of more than one tight spot","Libido alert!","","","","","","","","","","","","","","","","","","","","","",""],
         "Cons":["Lead to addiction","Cause weight gain","Expensive","Lower your social standing","Can cause bloating","May lead to instant fame","Can test positive for diahrea","May cause the Lord to smite you","","","","","","","","","","","","","","","","","","","","","","","","","",""],
         "PointHeaders":["Some reasons to think about ___","I'll tell you what I think about ___","I happen to have a lot in common with ___","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],
-        "Points":["I once found a them in my bathroom","I like to present them to my grandma","They make for delicious appetizers","We should organize a trip to take some to the zoo!","It would be fun to get matching tattoos","Don't get me STARTED","Imagine being stuck in a closet with them and Tom Cruise","","","","","","","","","","","","","","","","","","","","","","","","","","",""]
+        "Points":["I once found a them in my bathroom","I like to present them to my grandma","They make for delicious appetizers","We should organize a trip to take some to the zoo!","It would be fun to get matching tattoos","Don't get me STARTED","Imagine being stuck in a closet with them and Tom Cruise","","","","","","","","","","","","","","","","","","","","","","","","","","",""],
+        "DemonstrationsLeft":["Now let that sink in while I hop on one leg","I'm going to try some giraffe calls now","I'll lead us in a moment of silence","Time to feign incontinence","Lemme tell you how my grandpop got me interested in this","Here's the traumatic event that lead me to talk about this","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],
+        "DemonstrationsRight":[", and have a serious face.",", while you relax.",", and close my eyes really tight.",", while I look on the ground for my keys.",", while doing squats.",", while I make intense eye contact.","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],
+        "Conclusions":["So, are you all on board or what!?","Who's with me!!!?","And that's what I think about ___.","I hope you all have a better understanding of ___.","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""]
       };
 
     for (var key in slideData) {
@@ -113,14 +116,19 @@ export default {
       Cons: slideData.Cons,
       PointHeaders: slideData.PointHeaders,
       Points: slideData.Points,
+      DemonstrationsLeft: slideData.DemonstrationsLeft,
+      DemonstrationsRight: slideData.DemonstrationsRight,
+      Conclusions: slideData.Conclusions,
       Slide1Content: "",
       Slide2Content: "",
       ChartMeasure: "",
       ChartType: "line-down.svg",
       RandomPros: [],
       RandomCons: [],
+      Demonstration: "",
       PointHeader: "",
-      RandomPoints: []
+      RandomPoints: [],
+      Conclusion: ""
     }
   },
   components: {
@@ -131,6 +139,8 @@ export default {
     this.setupSlide3();
     this.setupSlide4();
     this.setupSlide5();
+    this.setupSlide6();
+    this.setupSlide8();
 
     Reveal.initialize({
       controls: false
@@ -163,12 +173,20 @@ export default {
       this.RandomCons = shuffled.slice(0, 3);
     },
     setupSlide5() {
+      const randLeft = this.DemonstrationsLeft[Math.floor(Math.random() * this.DemonstrationsLeft.length)];
+      const randRight = this.DemonstrationsRight[Math.floor(Math.random() * this.DemonstrationsRight.length)];
+      this.Demonstration = randLeft + randRight;
+    },
+    setupSlide6() {
       this.PointHeader = this.PointHeaders[Math.floor(Math.random() * this.PointHeaders.length)];
       this.PointHeader = this.PointHeader.replace(/___/g, this.MainSubject)
 
       const shuffled = this.Points.sort(() => 0.5 - Math.random());
       this.RandomPoints = shuffled.slice(0, 3);
-    }
+    },
+    setupSlide8() {
+      this.Conclusion = this.Conclusions[Math.floor(Math.random() * this.Conclusions.length)].replace(/___/g, this.MainSubject);
+    },
   }
 }
 </script>
