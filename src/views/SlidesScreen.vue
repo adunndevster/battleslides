@@ -62,11 +62,14 @@
         </section>
 
         <section>
-          <h1>Completely Random Slide</h1>
+          <div class="random-image-div">
+          </div>
+          <img class="random-image" :src="require(`@/assets/random-images/${MainSubject}.png`)"/>
+          <img :src="require(`@/assets/random-images/${RandomBG}`)"/>
         </section>
 
         <section>
-          <h1>{{Conclusion}}</h1>
+          <h2>{{Conclusion}}</h2>
         </section>
     </div>
 </div>
@@ -105,7 +108,7 @@ export default {
     }
 
     return {
-      MainSubject: "",
+      MainSubject: "Tacos",
       TitleActions: slideData.TitleActions,
       TitleSubjects: slideData.TitleSubjects,
       SlideStatements: slideData.SlideStatements,
@@ -128,7 +131,8 @@ export default {
       Demonstration: "",
       PointHeader: "",
       RandomPoints: [],
-      Conclusion: ""
+      Conclusion: "",
+      RandomBG: "bg1.jpg"
     }
   },
   components: {
@@ -140,6 +144,7 @@ export default {
     this.setupSlide4();
     this.setupSlide5();
     this.setupSlide6();
+    this.setupSlide7();
     this.setupSlide8();
 
     Reveal.initialize({
@@ -184,6 +189,9 @@ export default {
       const shuffled = this.Points.sort(() => 0.5 - Math.random());
       this.RandomPoints = shuffled.slice(0, 3);
     },
+    setupSlide7() {
+      this.RandomBG = "bg" + (Math.floor(Math.random() * 7) + 1) + ".jpg";
+    },
     setupSlide8() {
       this.Conclusion = this.Conclusions[Math.floor(Math.random() * this.Conclusions.length)].replace(/___/g, this.MainSubject);
     },
@@ -194,4 +202,16 @@ export default {
 
 <style lang="less">
   
+  .random-image-div{
+    position: relative;
+  }
+
+  .random-image{
+    position: absolute;
+    width: 25%;
+    left: 12%;
+    bottom: 20%;
+    float: left;
+  }
+
 </style>
