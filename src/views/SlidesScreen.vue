@@ -3,7 +3,7 @@
     <div class="slides">
 
         <section>
-            <h1>{{Slide1Content}}</h1>
+            <h2>{{Slide1Content}}</h2>
         </section>
 
         <section>
@@ -153,7 +153,7 @@ export default {
   },
   methods: {
     setupSlide1() {
-      const randTitleAction = this.TitleActions[Math.floor(Math.random() * this.SlideStatements.length)];
+      const randTitleAction = this.TitleActions[Math.floor(Math.random() * this.TitleActions.length)];
       const randTitleSubject = this.TitleSubjects[Math.floor(Math.random() * this.TitleSubjects.length)];
       this.MainSubject = randTitleSubject;
       this.Slide1Content = (randTitleAction.indexOf(' ') === 0 || 

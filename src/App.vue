@@ -6,7 +6,7 @@
 
 <style lang="less">
 @import url('../node_modules/reveal.js/css/reveal.css');
-@import url('../node_modules/reveal.js/css/theme/solarized.css');
+@import url('../node_modules/reveal.js/css/theme/serif.css');
 @import url('../node_modules/bulma/css/bulma.css');
 
 #app {
