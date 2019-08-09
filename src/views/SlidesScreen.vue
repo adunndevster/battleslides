@@ -139,6 +139,7 @@ export default {
   },
   mounted() {
     
+    this.loadSlideStyle();
     this.shuffleSlides();
     this.setupSlide1();
     this.setupSlide2();
@@ -206,13 +207,26 @@ export default {
     setupSlide8() {
       this.Conclusion = this.Conclusions[Math.floor(Math.random() * this.Conclusions.length)].replace(/___/g, this.MainSubject);
     },
+    loadSlideStyle()
+    {
+      const styles = ["moon.css", "serif.css", "black.css", "blood.css", "league.css", "night.css", "simple.css",
+                      "sky.css", "solarized.css", "white.css"];
+
+      const randomStyle = styles[Math.floor(Math.random() * styles.length)];
+
+      const head = document.querySelector('head');
+      const link = document.createElement('link');
+      head.appendChild(link);
+      link.type = "text/css";
+      link.rel = "stylesheet";
+      link.href = require(`../../node_modules/reveal.js/css/theme/${randomStyle}`);
+    }
   }
 }
 </script>
 
 
 <style lang="less">
-  
   .random-image-div{
     position: relative;
   }
@@ -224,5 +238,7 @@ export default {
     bottom: 20%;
     float: left;
   }
+
+  .reveal section img { background:none !important; border:none !important; box-shadow:none !important; border:none !important; }
 
 </style>

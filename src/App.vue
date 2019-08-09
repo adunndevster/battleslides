@@ -6,7 +6,6 @@
 
 <style lang="less">
 @import url('../node_modules/reveal.js/css/reveal.css');
-@import url('../node_modules/reveal.js/css/theme/serif.css');
 @import url('../node_modules/bulma/css/bulma.css');
 
 #app {
@@ -27,6 +26,4 @@
     }
   }
 }
-
-.reveal section img { background:none; border:none; box-shadow:none; }
 </style>
