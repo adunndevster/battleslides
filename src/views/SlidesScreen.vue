@@ -219,7 +219,7 @@ export default {
       head.appendChild(link);
       link.type = "text/css";
       link.rel = "stylesheet";
-      link.href = require(`@/theme/${randomStyle}`);
+      link.href = require(`@/theme/${"moon.css"}`);
     }
   }
 }
