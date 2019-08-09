@@ -219,7 +219,7 @@ export default {
       head.appendChild(link);
       link.type = "text/css";
       link.rel = "stylesheet";
-      link.href = require(`../../node_modules/reveal.js/css/theme/${randomStyle}`);
+      link.href = require(`@/theme/${randomStyle}`);
     }
   }
 }
