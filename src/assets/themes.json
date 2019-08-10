@@ -1,0 +1,28 @@
+{
+    "styles":[
+        {
+            "name": "pink-on-black",
+            "bg": "#000000",
+            "bg-video": "",
+            "font": "\"Comic Sans MS\", cursive, sans-serif",
+            "header-color": "#ff3399",
+            "font-color": "#ff3399"
+        },
+        {
+            "name": "black-on-white",
+            "bg": "#FFFFFF",
+            "bg-video": "",
+            "font": "\"Palatino Linotype\", \"Book Antiqua\", Palatino, serif",
+            "header-color": "#000000",
+            "font-color": "#000000"
+        },
+        {
+            "name": "classy",
+            "bg": "#f8f9ec",
+            "bg-video": "",
+            "font": "\"Palatino Linotype\", \"Book Antiqua\", Palatino, serif",
+            "header-color": "#222222",
+            "font-color": "#111111"
+        }
+    ]
+}

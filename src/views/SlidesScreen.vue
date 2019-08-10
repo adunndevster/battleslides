@@ -1,5 +1,5 @@
 <template >
-  <div class="reveal">
+  <div class="reveal" style="background:red;">
     <div class="slides">
 
         <section>
@@ -132,7 +132,8 @@ export default {
       PointHeader: "",
       RandomPoints: [],
       Conclusion: "",
-      RandomBG: "bg1.jpg"
+      RandomBG: "bg1.jpg",
+      styleEl: null
     }
   },
   components: {
@@ -209,17 +210,38 @@ export default {
     },
     loadSlideStyle()
     {
-      const styles = ["moon.css", "serif.css", "black.css", "blood.css", "league.css", "night.css", "simple.css",
-                      "sky.css", "solarized.css", "white.css"];
-
-      const randomStyle = styles[Math.floor(Math.random() * styles.length)];
-
       const head = document.querySelector('head');
       const link = document.createElement('link');
       head.appendChild(link);
       link.type = "text/css";
       link.rel = "stylesheet";
-      link.href = require(`@/theme/${"moon.css"}`);
+      link.href = require(`../../node_modules/reveal.js/css/theme/serif.css`);
+
+      const styles = require("@/assets/themes.json").styles;
+      const style = styles[Math.floor(Math.random() * styles.length)];
+      const revealDiv = document.querySelector('.reveal');
+      const slides = document.querySelector('.slides');
+      revealDiv.style.background = style["bg"];
+      for(let slide of slides.children)
+      {
+        slides.style.color = style["font-color"];
+      }
+
+      var hStyles = 
+      `
+      .reveal{
+        font-family: ${style["font"]} !important;
+      }
+      .reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+        color: ${style["header-color"]} !important;
+        font-family: ${style["font"]} !important;
+      }
+      `;
+
+      this.styleEl = document.createElement('style');
+      document.head.appendChild(this.styleEl);
+      this.styleEl.type = "text/css";
+      this.styleEl.appendChild(document.createTextNode(hStyles));
     }
   }
 }
@@ -240,5 +262,6 @@ export default {
   }
 
   .reveal section img { background:none !important; border:none !important; box-shadow:none !important; border:none !important; }
+  
 
 </style>
