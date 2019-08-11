@@ -1,5 +1,5 @@
 <template >
-  <div class="reveal" style="background:red;">
+  <div class="reveal">
     <div class="slides">
 
         <section>
@@ -221,10 +221,11 @@ export default {
       const style = styles[Math.floor(Math.random() * styles.length)];
       const revealDiv = document.querySelector('.reveal');
       const slides = document.querySelector('.slides');
-      revealDiv.style.background = style["bg"];
+      slides.style.color = style["font-color"];
+      revealDiv.style.background = style.bg;
       for(let slide of slides.children)
       {
-        slides.style.color = style["font-color"];
+        if(style.bg.indexOf("jpg") > -1) slide.setAttribute("data-background", require(`@/assets/bgs/${style.bg}`));
       }
 
       var hStyles = 
