@@ -215,7 +215,7 @@ export default {
       head.appendChild(link);
       link.type = "text/css";
       link.rel = "stylesheet";
-      link.href = require(`../../node_modules/reveal.js/css/theme/serif.css`);
+      link.href = require(`@/assets/theme/serif.css`);
 
       const styles = require("@/assets/themes.json").styles;
       const style = styles[Math.floor(Math.random() * styles.length)];
