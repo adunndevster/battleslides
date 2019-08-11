@@ -1,6 +1,77 @@
 {
     "styles":[
-        
+        {
+            "name": "pink-on-black",
+            "bg": "#000000",
+            "bg-video": "",
+            "font": "\"Comic Sans MS\", cursive, sans-serif",
+            "header-color": "#ff3399",
+            "font-color": "#ff3399"
+        },
+        {
+            "name": "yellow-on-black",
+            "bg": "#000000",
+            "bg-video": "",
+            "font": "\"Comic Sans MS\", cursive, sans-serif",
+            "header-color": "#ffd951",
+            "font-color": "#ffd951"
+        },
+        {
+            "name": "tiedye",
+            "bg": "tiedye.jpg",
+            "bg-video": "",
+            "font": "\"Comic Sans MS\", cursive, sans-serif",
+            "header-color": "#000000",
+            "font-color": "#000000"
+        },
+        {
+            "name": "black-on-white",
+            "bg": "#FFFFFF",
+            "bg-video": "",
+            "font": "\"Palatino Linotype\", \"Book Antiqua\", Palatino, serif",
+            "header-color": "#000000",
+            "font-color": "#000000"
+        },
+        {
+            "name": "classy",
+            "bg": "#f8f9ec",
+            "bg-video": "",
+            "font": "\"Palatino Linotype\", \"Book Antiqua\", Palatino, serif",
+            "header-color": "#222222",
+            "font-color": "#111111"
+        },
+        {
+            "name": "sleek1",
+            "bg": "#101c30",
+            "bg-video": "",
+            "font": "Impact, Charcoal, sans-serif",
+            "header-color": "#0099cc",
+            "font-color": "#0099cc"
+        },
+        {
+            "name": "sleek2",
+            "bg": "#101c30",
+            "bg-video": "",
+            "font": "\"Lucida Sans Unicode\", \"Lucida Grande\", sans-serif",
+            "header-color": "#0099cc",
+            "font-color": "#0099cc"
+        },
+        {
+            "name": "typewriter",
+            "bg": "Background_paper.jpg",
+            "bg-video": "",
+            "font": "\"Courier New\", Courier, monospace",
+            "header-color": "#000000",
+            "font-color": "#000000"
+        },
+        {
+            "name": "fluff",
+            "bg": "#ffccff",
+            "bg-video": "",
+            "font": "Arial, Helvetica, sans-serif",
+            "header-color": "#000066",
+            "font-color": "#0000cc"
+        },
         {
             "name": "pink-flowers",
             "bg": "beautiful-pink-flowers.jpg",
