@@ -72,6 +72,9 @@
           <h2>{{Conclusion}}</h2>
         </section>
     </div>
+     <transition name="bounce">
+        <a id="btnContinue" href="#" v-if="showContinueButton">Continue</a>
+     </transition>
 </div>
 </template>
 
@@ -79,6 +82,7 @@
 // import HelloWorld from './components/HelloWorld.vue'
 
 import Reveal from 'reveal.js/js/reveal'
+import { gameMode } from '../common/GameSettings';
 export default {
   name: 'slides-screen',
   data: () => {
@@ -133,7 +137,8 @@ export default {
       RandomPoints: [],
       Conclusion: "",
       RandomBG: "bg1.jpg",
-      styleEl: null
+      styleEl: null,
+      showContinueButton: false
     }
   },
   components: {
@@ -153,9 +158,14 @@ export default {
 
     Reveal.initialize({
       controls: false
-    })
+    });
+
+    Reveal.addEventListener( 'slidechanged', this.slideChanged);
   },
   methods: {
+    slideChanged(event){
+      this.showContinueButton = Reveal.isLastSlide();
+    },
     shuffleSlides(){
       const slides = document.querySelector('.slides');
       const lastSlide = slides.children[slides.children.length-1];
@@ -265,5 +275,30 @@ export default {
 
   .reveal section img { background:none !important; border:none !important; box-shadow:none !important; border:none !important; }
   
+  #btnContinue {
+    z-index: 1000;
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+  }  
+
+  .bounce-enter-active {
+    transform: scale(0);
+    animation: bounce-in .5s 3s;
+  }
+  .bounce-leave-active {
+    animation: bounce-in .5s reverse;
+  }
+  @keyframes bounce-in {
+    0% {
+      transform: scale(0);
+    }
+    50% {
+      transform: scale(1.5);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
 
 </style>

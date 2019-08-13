@@ -11,10 +11,9 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import router from '../router';
+import { gameMode, GAME_MODE_BATTLE, GameSettings } from '../common/GameSettings';
 
-@Component({
-  mounted () {
-  }
-})
-export default class IntroScreen extends Vue {}
+export default {
+  name: "intro-screen"
+}
 </script>
