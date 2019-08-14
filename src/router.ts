@@ -4,6 +4,7 @@ import OpeningCredits from './views/OpeningCredits.vue';
 import IntroScreen from './views/IntroScreen.vue';
 import TurnScreen from './views/TurnScreen.vue';
 import SlidesScreen from './views/SlidesScreen.vue';
+import GameFinale from './views/GameFinale.vue';
 
 Vue.use(Router);
 
@@ -38,6 +39,11 @@ export default new Router({
       path: '/slides-screen',
       name: 'slides-screen',
       component: SlidesScreen,
+    },
+    {
+      path: '/game-finale',
+      name: 'game-finale',
+      component: GameFinale,
     },
   ],
 });

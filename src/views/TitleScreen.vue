@@ -16,13 +16,12 @@ export default {
   methods: {
     startBattleMode()
     {
-      setGameMode(GAME_MODE_BATTLE);
       GameSettings.SetupBattleModeGame();
       router.push("intro-screen");
     },
     startPartyMode()
     {
-      setGameMode(GAME_MODE_PARTY);
+      GameSettings.SetupPartyModeGame();
       router.push("intro-screen");
     }
   }

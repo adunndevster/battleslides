@@ -4,7 +4,7 @@
     Round {{Round}}
   </h2>
   <div>
-    Team X's turn!
+    {{TeamName}}'s turn!
   </div>
 </div>
 </template>
@@ -17,7 +17,8 @@ import { GameSettings } from '../common/GameSettings';
 @Component({
   data: () => {
     return {
-      Round: GameSettings.GetRound()
+      Round: GameSettings.GetRound(),
+      TeamName: GameSettings.Team1Turn ? GameSettings.Team1Name : GameSettings.Team2Name
     }
   },
   mounted () {

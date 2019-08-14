@@ -82,7 +82,7 @@
 // import HelloWorld from './components/HelloWorld.vue'
 
 import Reveal from 'reveal.js/js/reveal'
-import { gameMode, GameSettings } from '../common/GameSettings';
+import { GameMode, GameSettings, GAME_MODE_PARTY } from '../common/GameSettings';
 import router from '../router';
 export default {
   name: 'slides-screen',
@@ -90,7 +90,7 @@ export default {
     let slideData = 
       {
         "TitleActions":["Getting Started with ","Growing Your Business with ",", Listening and Learning","... Isn't It About Time?","Getting Down and Dirty With ","What Happens When you Try To Eat "," are for N00BS!",", Seeing is Believing",", let's DIVE IN!","... a 500 Foot View!","What My Parents Can Learn From "," Are as Overated as High Heels or Tupes",", and Getting Over Your Ex.","... Let's Get Effin Rich!",", or \"What the Chinese Do.\"",", Nobody Loves 'Em More Than Me. - Donald Trump","Engaging in Dangerous Acts with ",", Get the Heck Out of My Vagina!",", Am I Right!?","How to Get More Out of Your ","... Don't They Have Puncahble Faces?","Stop All Be Crawlin' on Your Bellies, ",", You Got Played!"," and Other Iffy Choices","Unconventional Methods of Childcare Using ","The Unexpected Benefits of ",": What Up With That?","You Can't Blame Me for Hating ","Why I Can't Get Enough of ","The Controversy Surrounding ",": Both Sides of the Story","","","","","","","","","","","","","","","","","","","",""],
-        "TitleSubjects":["Airlines","Airplanes","Automobiles","Ballerinas","Basketball players","Casinos","Cats","Computers","Cupcakes","Dogs","Fathers","Friends","Giraffes","Hotels","Mothers","Robots","Rock Bands","Sports","Tacos","Warrior princesses","Weddings","Elves","Bankers","Religions","Dolphins","Bakers","Hipsters","Fitness Instructors","Gamers","Hedgehogs and Plumbers","Children","Bush and Obama","Hemorrhoids","Pencil Necks","Hypnotists*","Flannels*","Novelty Tuxedo T-Shirts*","Homemade Vaccines*","Piercings*","Breath Mints*","Nude Sculptures*","Butterfly Kisses*","Athletic Underpants*","Books*","Maps*","Very Small Dogs*","Minivans*","Horses*","Venomous Snakes*","Buckets of Scorpions*","Razor Blades*"],
+        "TitleSubjects":["Airlines","Airplanes","Automobiles","Ballerinas","Basketball players","Casinos","Cats","Computers","Cupcakes","Dogs","Fathers","Friends","Giraffes","Hotels","Mothers","Robots","Rock Bands","Sports","Tacos","Warrior princesses","Weddings","Elves","Bankers","Religions","Dolphins","Bakers","Hipsters","Fitness Instructors","Gamers","Hedgehogs and Plumbers","Children","Bush and Obama","Hemorrhoids","Pencil necks","Hypnotists*","Flannels*","Novelty Tuxedo T-Shirts*","Homemade Vaccines*","Piercings*","Breath Mints*","Nude Sculptures*","Butterfly Kisses*","Athletic Underpants*","Books*","Maps*","Very Small Dogs*","Minivans*","Horses*","Venomous Snakes*","Buckets of Scorpions*","Razor Blades*"],
         "SlideStatements":["Now is the time for --- to ___.","If only --- would ___, we wouldn't be in this situation.","I think --- should ___.","Who agrees that --- should ___?","All the kids want --- to ___.","Can --- ___?","Women like --- when they ___.","My daddy wants --- to ___","Based on legal precendence, --- must now ___.","This is my way of asking you to ___.","If --- can ___, so can you.","Note that --- are known for their tendency to ___.","They all said I couldn't ___ with ---, and they were wrong.","They all said I couldn't ___ with ---, and they were right.","Fun fact: --- ___.","If you ___, you'll learn to love ---.","Take it from me: I love ---, and I ___ all the time.","I ___ every day, so naturally I can't get enough of ---.","If you're like me, --- makes you want to ___.","Thinking about --- makes me want to ___.","Don't assume --- will ___.","When I ___, I hope --- will be nearby.","When you are ready to ___, the --- will support you.","Men secretly want --- to ___.","How could --- ever ___ again after what happened?","You all need --- to ___.","You, too, can ___ with ---. Stay tuned.","The President needs --- to ___.","Don't believe what you've read: --- will ___.","Someday --- will finally ___.","Who can tell me why --- shouldn't ___?","When should --- ___?","I'm sensing some of you don't believe --- should ___.","You'll often find --- attempting to ___.","","","","","","","","","","","","","","","","",""],
         "StatementActions":["jump up and down until all the marbles fall out","dance, dance, dance, and never stop","put their money where their mouth is","flip the script","be more careful with dad's bank account","wave their hands in the air like the just don't care","hurry and rush to the bathroom","just please go get a job","get off my lawn","pair up, and really make some thing special","jump in a blender and make a soup","throw a bag of puppies in the river","call grandma a liar","swoop in and get them eggs","turn the tables","tickle my little bum-bum","snort some rails","comfort a stranger","wash hands without soap","complain to customer service","get featured in a Broadway musical","make me a sandwich","have dinner with my parents","explore the abandoned mine shaft on the edge of town","make a mixtape","travel the world","ride in a hot air balloon","DJ at weddings","sing karaoke","kiss a horse on the lips","play baseball with your dad","get something going","invite us to a fancy party","spread diseases","","","","","","","","","","","","","","","","",""],
         "ChartTypes":["line-up.svg","line-down.svg","pie.svg","pie2.svg","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""],
@@ -259,8 +259,14 @@ export default {
     },
     nextPresnetation()
     {
-      GameSettings.NextPresentation();
-      router.push("turn-screen");
+      if(GameMode === GAME_MODE_PARTY || GameSettings.GetRound() < 3 || GameSettings.Team1Turn)
+      {
+        GameSettings.NextPresentation();
+        router.push("turn-screen");
+      } else {
+        router.push("game-finale");
+      }
+      
     }
   }
 }
