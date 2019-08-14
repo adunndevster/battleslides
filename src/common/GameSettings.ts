@@ -6,6 +6,7 @@ export default function setGameMode(mode: string) {
 }
 
 export const GameSettings = {
+    Presentation: 1,
     Team1Name: '',
     Team2Name: '',
     RandomizeTeamNames: () => {
@@ -15,5 +16,10 @@ export const GameSettings = {
     SetupBattleModeGame: () => {
         GameSettings.RandomizeTeamNames();
     },
-
+    NextPresentation: () => {
+        GameSettings.Presentation++;
+    },
+    GetRound: () => {
+        return Math.ceil(GameSettings.Presentation / 2);
+    },
 };

@@ -73,7 +73,7 @@
         </section>
     </div>
      <transition name="bounce">
-        <a id="btnContinue" href="#" v-if="showContinueButton">Continue</a>
+        <a id="btnContinue" @click="nextPresnetation" v-if="showContinueButton">Continue</a>
      </transition>
 </div>
 </template>
@@ -82,7 +82,8 @@
 // import HelloWorld from './components/HelloWorld.vue'
 
 import Reveal from 'reveal.js/js/reveal'
-import { gameMode } from '../common/GameSettings';
+import { gameMode, GameSettings } from '../common/GameSettings';
+import router from '../router';
 export default {
   name: 'slides-screen',
   data: () => {
@@ -144,7 +145,8 @@ export default {
   components: {
   },
   mounted() {
-    
+    Reveal.reset();
+
     this.loadSlideStyle();
     this.shuffleSlides();
     this.setupSlide1();
@@ -254,6 +256,11 @@ export default {
       document.head.appendChild(this.styleEl);
       this.styleEl.type = "text/css";
       this.styleEl.appendChild(document.createTextNode(hStyles));
+    },
+    nextPresnetation()
+    {
+      GameSettings.NextPresentation();
+      router.push("turn-screen");
     }
   }
 }
