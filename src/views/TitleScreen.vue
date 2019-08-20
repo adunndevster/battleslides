@@ -441,14 +441,14 @@ export default {
                   noFileSelectedCallback = failure;
               }
 
-              selectFile(callback, null, null);
+              selectFile(callback);
           };
           selector.selectMultipleFiles = function(callback, failure) {
               if (failure) {
                   noFileSelectedCallback = failure;
               }
 
-              selectFile(callback, true, null);
+              selectFile(callback, true);
           };
           selector.selectDirectory = function(callback, failure) {
               if (failure) {
@@ -463,7 +463,7 @@ export default {
           function selectFile(callback, multiple, directory) {
               callback = callback || function() {};
 
-              let file = document.createElement('input');
+              var file = document.createElement('input');
               file.type = 'file';
 
               if (multiple) {
@@ -507,12 +507,12 @@ export default {
                       return;
                   }
 
-                  if (!file.files) {
+                  if (!file.files[0]) {
                       console.error('No file selected.');
                       return;
                   }
 
-                  if(file.files) callback(file.files[0]);
+                  callback(file.files[0]);
 
                   file.parentNode.removeChild(file);
               };
@@ -555,13 +555,13 @@ export default {
                   }
               }
 
-              let mouseEvent = new MouseEvent('click', {
+              var event = new MouseEvent('click', {
                   view: window,
                   bubbles: true,
                   cancelable: true
               });
 
-              element.dispatchEvent(mouseEvent);
+              element.dispatchEvent(event);
           }
       }
   },
