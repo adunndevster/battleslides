@@ -13,6 +13,7 @@
     "bulma": "^0.7.5",
     "core-js": "^2.6.5",
     "eagle.js": "^0.6.0",
+    "fbr": "^2.0.8",
     "pug-plain-loader": "^1.0.0",
     "reveal.js": "^3.8.0",
     "rtcmulticonnection": "^3.6.9",
