@@ -9,10 +9,27 @@
 </template>
 
 <script lang="ts">
-import setGameMode, { GAME_MODE_BATTLE, GAME_MODE_PARTY, GameSettings } from "../common/GameSettings"
+import setGameMode, { GAME_MODE_BATTLE, GAME_MODE_PARTY, GameSettings } from "../common/GameSettings";
 import router from '../router';
+//import {io} from "socket.io";
+
 export default {
   name: "title-screen",
+  mounted() {
+    //const io = require('socket.io');
+    const RTCMultiConnection = require('rtcmulticonnection');
+    
+    var connection = new RTCMultiConnection();
+    // this line is VERY_important
+    connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+    // if you want audio+video conferencing
+    connection.session = {
+        audio: true,
+        video: true
+    };
+
+    connection.openOrJoin('your-room-id');
+  },
   methods: {
     startBattleMode()
     {

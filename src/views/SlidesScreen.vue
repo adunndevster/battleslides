@@ -92,8 +92,6 @@
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
-
 import Reveal from 'reveal.js/js/reveal'
 import { GameMode, GameSettings, GAME_MODE_PARTY } from '../common/GameSettings';
 import router from '../router';
@@ -173,7 +171,7 @@ export default {
     Reveal.reset();
 
     this.loadSlideStyle();
-    //this.shuffleSlides();
+    this.shuffleSlides();
     this.setupIntro();
     this.setupRandomStatement();
     this.setupChart();
