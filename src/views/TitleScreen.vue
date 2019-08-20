@@ -69,7 +69,7 @@ export default {
         // MIT License   - https://www.WebRTC-Experiment.com/licence/
         // Source Code   - https://github.com/muaz-khan/RTCMultiConnection
         let btnSelectFile = document.getElementById("btn-select-file")
-        window.addEventListener('load', function() {
+        function setupFileTransfer() {
             if (window.localStorage.getItem('room-id')) {
                 document.getElementById('room-id').value = window.localStorage.getItem('room-id');
             } else {
@@ -90,7 +90,7 @@ export default {
                 document.getElementById('room-id').disabled = true;
                 joinARoom(location.hash.replace('#', ''));
             }
-        });
+        }
         
         var connection;
         function joinARoom(roomId) {
@@ -564,6 +564,7 @@ export default {
               element.dispatchEvent(event);
           }
       }
+      setupFileTransfer();
   },
   methods: {
     startBattleMode()
