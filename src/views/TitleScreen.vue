@@ -14,7 +14,6 @@
 
       <header>
           <div class="ribbon"><div class="ribbon-stitches-top"></div><strong class="ribbon-content"><h1>
-            <input type="text" id="room-id" placeholder="room-id"><button id="join-room">Join</button>
           </h1></strong><div class="ribbon-stitches-bottom"></div></div>
       </header>
 
@@ -31,10 +30,6 @@
         </p>
       </div>
 
-      <a class="chrome-web-store-icon" href="https://chrome.google.com/webstore/detail/webrtc-file-sharing/nbnncbdkhpmbnkfngmkdbepoemljbnfo" target="_blank" title="Install Chrome Desktop Extension"></a>
-
-      <a class="android-app-icon" href="https://play.google.com/store/apps/details?id=com.webrtc.experiment" target="_blank" title="Install Android App"></a>
-
     </div>
   </div>
 </template>
@@ -42,20 +37,11 @@
 <script>
 import setGameMode, { GAME_MODE_BATTLE, GAME_MODE_PARTY, GameSettings } from "../common/GameSettings";
 import router from '../router';
+import {FileSelector} from "../common/FileSelector";
 
 export default {
   name: "title-screen",
   mounted() {
-    
-    // // this line is VERY_important
-    // connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
-    // // if you want audio+video conferencing
-    // connection.session = {
-    //     audio: true,
-    //     video: true
-    // };
-
-    // connection.openOrJoin('your-room-id');
     window.getExternalIceServers = true;
 
     window.onerror = console.error = function() {
@@ -70,26 +56,7 @@ export default {
         // Source Code   - https://github.com/muaz-khan/RTCMultiConnection
         let btnSelectFile = document.getElementById("btn-select-file")
         function setupFileTransfer() {
-            if (window.localStorage.getItem('room-id')) {
-                document.getElementById('room-id').value = window.localStorage.getItem('room-id');
-            } else {
-                document.getElementById('room-id').value = (Math.random() * 100).toString().replace('.', '');
-            }
-            if(location.hash.length > 1) {
-               document.getElementById('room-id').value = location.hash.replace('#', '');
-            }
-            document.getElementById('join-room').onclick = btnSelectFile.onclick = function() {
-                document.getElementById('join-room').disabled = true;
-                document.getElementById('room-id').disabled = true;
-                var roomId = document.getElementById('room-id').value;
-                window.localStorage.setItem('room-id', roomId);
-                joinARoom(roomId);
-            };
-            if(location.hash.length > 1) {
-                document.getElementById('join-room').disabled = true;
-                document.getElementById('room-id').disabled = true;
-                joinARoom(location.hash.replace('#', ''));
-            }
+          joinARoom("battleslides-1234");
         }
         
         var connection;
@@ -210,14 +177,6 @@ export default {
                     var message = 'Successfully connected to room: <b>' + roomid + '</b><hr>Other users can join you on iPhone/Android using "' + roomid + '" or desktop (Windows/MacOSX/Ubuntu) users can join using this (secure/private) URL: <a href="./file-sharing.html#' + roomid + '" target="_blank">file-sharing.html#' + roomid + '</a>';
                     // if (isRoomEists) { }
                     appendLog(message);
-                    if(document.getElementById('room-id')) {
-                        if(innerWidth > 500) {
-                          document.getElementById('room-id').parentNode.innerHTML = 'Joined room: ' + roomid;
-                        }
-                        else {
-                          document.getElementById('room-id').parentNode.innerHTML = 'Joined room:<br>' + roomid;
-                        }
-                    }
                     connection.getSocket(function(socket) {
                       socket.on('disconnect', function() {
                          appendLog('Seems disconnected.', 'red');
@@ -404,6 +363,7 @@ export default {
                 var fileNameMatches = (file.name || '').toLowerCase().match(/.webm|.wav|.pdf|.txt|.js|.css|.cs|.png|.jpg|.jpeg|.gif/g);
                 if (fileNameMatches) {
                     iframe.src = URL.createObjectURL(file);
+                    GameSettings.Images.push(file);
                 } else {
                     iframe.src = 'https://www.webrtc-experiment.com/images/unknown-file.png';
                 }
@@ -431,139 +391,7 @@ export default {
           }
           btnSelectFile.onclick(file);
         }, false);
-        function FileSelector() {
-          var selector = this;
-
-          var noFileSelectedCallback = function() {};
-
-          selector.selectSingleFile = function(callback, failure) {
-              if (failure) {
-                  noFileSelectedCallback = failure;
-              }
-
-              selectFile(callback);
-          };
-          selector.selectMultipleFiles = function(callback, failure) {
-              if (failure) {
-                  noFileSelectedCallback = failure;
-              }
-
-              selectFile(callback, true);
-          };
-          selector.selectDirectory = function(callback, failure) {
-              if (failure) {
-                  noFileSelectedCallback = failure;
-              }
-
-              selectFile(callback, true, true);
-          };
-
-          selector.accept = '*.*';
-
-          function selectFile(callback, multiple, directory) {
-              callback = callback || function() {};
-
-              var file = document.createElement('input');
-              file.type = 'file';
-
-              if (multiple) {
-                  file.multiple = true;
-              }
-
-              if (directory) {
-                  file.webkitdirectory = true;
-              }
-
-              file.accept = selector.accept;
-
-              file.onclick = function() {
-                  file.clickStarted = true;
-              };
-
-              document.body.onfocus = function() {
-                  setTimeout(function() {
-                      if (!file.clickStarted) return;
-                      file.clickStarted = false;
-
-                      if (!file.value) {
-                          noFileSelectedCallback();
-                      }
-                  }, 500);
-              };
-
-              file.onchange = function() {
-                  if (multiple) {
-                      if (!file.files.length) {
-                          console.error('No file selected.');
-                          return;
-                      }
-
-                      var arr = [];
-                      Array.from(file.files).forEach(function(file) {
-                          file.url = file.webkitRelativePath;
-                          arr.push(file);
-                      });
-                      callback(arr);
-                      return;
-                  }
-
-                  if (!file.files[0]) {
-                      console.error('No file selected.');
-                      return;
-                  }
-
-                  callback(file.files[0]);
-
-                  file.parentNode.removeChild(file);
-              };
-              file.style.display = 'none';
-              (document.body || document.documentElement).appendChild(file);
-              fireClickEvent(file);
-          }
-
-          function getValidFileName(fileName) {
-              if (!fileName) {
-                  fileName = 'file' + (new Date).toISOString().replace(/:|\.|-/g, '')
-              }
-
-              var a = fileName;
-              a = a.replace(/^.*[\\\/]([^\\\/]*)$/i, "$1");
-              a = a.replace(/\s/g, "_");
-              a = a.replace(/,/g, '');
-              a = a.toLowerCase();
-              return a;
-          }
-
-          function fireClickEvent(element) {
-              if (typeof element.click === 'function') {
-                  element.click();
-                  return;
-              }
-
-              if (typeof element.change === 'function') {
-                  element.change();
-                  return;
-              }
-
-              if (typeof document.createEvent('Event') !== 'undefined') {
-                  var event = document.createEvent('Event');
-
-                  if (typeof event.initEvent === 'function' && typeof element.dispatchEvent === 'function') {
-                      event.initEvent('click', true, true);
-                      element.dispatchEvent(event);
-                      return;
-                  }
-              }
-
-              var event = new MouseEvent('click', {
-                  view: window,
-                  bubbles: true,
-                  cancelable: true
-              });
-
-              element.dispatchEvent(event);
-          }
-      }
+        
       setupFileTransfer();
   },
   methods: {
@@ -711,15 +539,6 @@ export default {
           padding-top: 6px;
           color: white;
         }
-        #room-id {
-          outline: none;
-          border: 1px solid black;
-          padding: 1px 3px;
-          font-size: 100%;
-          background: rgba(255, 255, 255, 0.28);
-          border-top-left-radius: 5px;
-          border-bottom-left-radius: 5px;
-        }
         #join-room {
           border: 1px solid black;
           background: rgba(255, 255, 255, 0.28);
@@ -768,9 +587,6 @@ export default {
           .btn-select-file {
             top: 20%;
             left: 40%;
-          }
-          #room-id {
-            width: 40%;
           }
           .ribbon{
             height: 150%;

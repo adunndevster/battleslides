@@ -10,6 +10,7 @@ export const GameSettings = {
     Team1Turn: true,
     Team1Name: '',
     Team2Name: '',
+    Images: [],
     RandomizeTeamNames: () => {
         GameSettings.Team1Name = 'The Donkeys';
         GameSettings.Team2Name = 'The Elephants';

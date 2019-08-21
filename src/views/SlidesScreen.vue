@@ -82,6 +82,10 @@
         </section>
 
         <section>
+          <iframe id="customImage"></iframe>
+        </section>
+
+        <section>
           <h2>{{Conclusion}}</h2>
         </section>
     </div>
@@ -168,10 +172,11 @@ export default {
   components: {
   },
   mounted() {
+
     Reveal.reset();
 
     this.loadSlideStyle();
-    this.shuffleSlides();
+    //this.shuffleSlides();
     this.setupIntro();
     this.setupRandomStatement();
     this.setupChart();
@@ -182,6 +187,7 @@ export default {
     this.setupRandomList();
     this.setupAcronym();
     this.setupSong();
+    this.setupCustomImage();
     this.setupConclusion();
 
     Reveal.initialize({
@@ -276,6 +282,26 @@ export default {
       this.RandomSongText = this.RandomSongText.replace(/___/g, this.RandomSongStyle).replace(/---/g, this.MainSubject);
       
       this.RandomSongStyle += (Math.floor(Math.random() * 3) + 1) + ".mp3";
+    },
+    setupCustomImage() {
+      let iframe = document.getElementById('customImage');
+      iframe.style.display = 'block';
+      let file = GameSettings.Images[0];
+      iframe.onload = function() {
+          Array.prototype.slice.call(iframe.contentWindow.document.body.querySelectorAll('*')).forEach(function(element) {
+              element.style.maxWidth = '100%';
+          });
+          if (!file.type || fileNameMatches || file.type.match(/image|video|audio|pdf/g) || iframe.src.indexOf('data:image/png') !== -1 || iframe.src.toLowerCase().search(/.png|.jpeg|.jpg|.gif/g) !== -1) {
+              iframe.contentWindow.document.body.style.textAlign = 'center';
+              iframe.contentWindow.document.body.style.background = 'black';
+              iframe.contentWindow.document.body.style.color = 'white';
+              return;
+          }
+          iframe.contentWindow.document.body.style.textAlign = 'left';
+          iframe.contentWindow.document.body.style.background = 'white';
+          iframe.contentWindow.document.body.style.color = 'black';
+      };
+      iframe.src = URL.createObjectURL(file);
     },
     setupConclusion() {
       this.Conclusion = this.Conclusions[Math.floor(Math.random() * this.Conclusions.length)].replace(/___/g, this.MainSubject);
