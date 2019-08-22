@@ -11,6 +11,7 @@ export const GameSettings = {
     Team1Name: '',
     Team2Name: '',
     Images: [],
+    ImageSpot: 0,
     RandomizeTeamNames: () => {
         GameSettings.Team1Name = 'The Donkeys';
         GameSettings.Team2Name = 'The Elephants';

@@ -81,8 +81,10 @@
           <audio data-autoplay :src="require(`@/assets/music/${RandomSongStyle}`)"></audio>
         </section>
 
-        <section>
-          <iframe id="customImage"></iframe>
+        <section data-state="customContentShow" id="customImageSection">
+          <div id="customContent" class = "stretch">
+            <!-- <iframe style="width:100vw;height:50vh;" id="customImage"></iframe> -->
+          </div>
         </section>
 
         <section>
@@ -99,6 +101,7 @@
 import Reveal from 'reveal.js/js/reveal'
 import { GameMode, GameSettings, GAME_MODE_PARTY } from '../common/GameSettings';
 import router from '../router';
+let vue = null;
 export default {
   name: 'slides-screen',
   data: () => {
@@ -166,13 +169,14 @@ export default {
       Conclusion: "",
       RandomBG: "bg1.jpg",
       styleEl: null,
-      showContinueButton: false
+      showContinueButton: false,
+      customVideo: null
     }
   },
   components: {
   },
   mounted() {
-
+    vue = this;
     Reveal.reset();
 
     this.loadSlideStyle();
@@ -195,6 +199,12 @@ export default {
     });
 
     Reveal.addEventListener( 'slidechanged', this.slideChanged);
+    Reveal.addEventListener( 'customContentShow', function() {
+      if(vue.customVideo)
+      {
+        setTimeout(() => { vue.customVideo.play() }, 1000);
+      }
+    }, false );
   },
   methods: {
     slideChanged(event){
@@ -284,24 +294,69 @@ export default {
       this.RandomSongStyle += (Math.floor(Math.random() * 3) + 1) + ".mp3";
     },
     setupCustomImage() {
-      let iframe = document.getElementById('customImage');
-      iframe.style.display = 'block';
-      let file = GameSettings.Images[0];
-      iframe.onload = function() {
-          Array.prototype.slice.call(iframe.contentWindow.document.body.querySelectorAll('*')).forEach(function(element) {
-              element.style.maxWidth = '100%';
-          });
-          if (!file.type || fileNameMatches || file.type.match(/image|video|audio|pdf/g) || iframe.src.indexOf('data:image/png') !== -1 || iframe.src.toLowerCase().search(/.png|.jpeg|.jpg|.gif/g) !== -1) {
-              iframe.contentWindow.document.body.style.textAlign = 'center';
-              iframe.contentWindow.document.body.style.background = 'black';
-              iframe.contentWindow.document.body.style.color = 'white';
-              return;
-          }
-          iframe.contentWindow.document.body.style.textAlign = 'left';
-          iframe.contentWindow.document.body.style.background = 'white';
-          iframe.contentWindow.document.body.style.color = 'black';
-      };
-      iframe.src = URL.createObjectURL(file);
+      if(GameSettings.Images.length > 0 && GameSettings.ImageSpot < GameSettings.Images.length)
+      {
+        // currentPosition: 84
+        // end: true
+        // extra: {userid: "jxy9r9cf7oj", chunkSize: 60000}
+        // lastModifiedDate: "Wed Aug 21 2019 18:02:15 GMT-0600 (Mountain Daylight Time)"
+        // maxChunks: 83
+        // name: "20190821_180209.mp4"
+        // remoteUserId: "1yhlcihi6go"
+        // size: 4929703
+        // type: "video/mp4"
+        // url: "blob:https://localhost:8080/51c7e475-3d15-4b95-8b5a-da24abcc286d"
+        // userid: "jxy9r9cf7oj"
+        // uuid: "6463720986830172"
+        // __proto__: Blob
+        const file = GameSettings.Images[GameSettings.ImageSpot];
+        GameSettings.ImageSpot++;
+        const customContent = document.getElementById("customContent");
+        if(file.type.indexOf("video") > -1)
+        {
+          this.customVideo = document.createElement('video');
+          this.customVideo.src = file.url;
+          this.customVideo.autoplay = false;
+          this.customVideo.controls = true;
+          customContent.appendChild(this.customVideo);
+        } else if(file.type.indexOf("image") > -1)
+        {
+          const image = document.createElement("IMG");
+          image.src = file.url;
+          customContent.appendChild(image);
+        }
+        
+
+        // let iframe = document.getElementById('customImage');
+        // iframe.style.display = 'block';
+        // const file = GameSettings.Images[GameSettings.ImageSpot];
+        // GameSettings.ImageSpot++;
+        // iframe.onload = function() {
+        //     Array.prototype.slice.call(iframe.contentWindow.document.body.querySelectorAll('*')).forEach(function(element) {
+        //         element.style.display = 'block';
+        //         element.style.margin = '0 auto 0 auto';
+        //         element.style.width = '42%';
+        //         element.removeAttribute('autoplay');
+        //         element.removeAttribute('controls');
+        //         element.setAttribute('muted');
+        //     });
+        //     if (!file.type || fileNameMatches || file.type.match(/image|video|audio|pdf/g) || iframe.src.indexOf('data:image/png') !== -1 || iframe.src.toLowerCase().search(/.png|.jpeg|.jpg|.gif/g) !== -1) {
+        //         iframe.contentWindow.document.body.style.textAlign = 'center';
+        //         iframe.contentWindow.document.body.style.background = 'black';
+        //         iframe.contentWindow.document.body.style.color = 'white';
+        //         return;
+        //     }
+        //     iframe.contentWindow.document.body.style.textAlign = 'left';
+        //     iframe.contentWindow.document.body.style.background = 'white';
+        //     iframe.contentWindow.document.body.style.color = 'black';
+        // };
+        // iframe.src = URL.createObjectURL(file);
+        // iframe.contentWindow.document.body.style.overflow = 'hidden';
+      } else {
+        const section = document.getElementById('customImageSection');
+        const slides = document.querySelector('.slides');
+        slides.removeChild(section);
+      }
     },
     setupConclusion() {
       this.Conclusion = this.Conclusions[Math.floor(Math.random() * this.Conclusions.length)].replace(/___/g, this.MainSubject);
@@ -397,6 +452,12 @@ export default {
     100% {
       transform: scale(1);
     }
+  }
+
+  #customImage {
+    width: 100vw;
+    height: 50vh;
+    display: block;
   }
 
 </style>
