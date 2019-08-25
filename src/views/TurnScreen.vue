@@ -9,7 +9,7 @@
 </div>
 </template>
 
-<script lang="ts">
+<script>
 import { Component, Vue } from 'vue-property-decorator';
 import router from '../router';
 import { GameSettings } from '../common/GameSettings';

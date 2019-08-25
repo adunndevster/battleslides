@@ -1,13 +1,32 @@
 <template>
-  <div>
-    <h1>This is the title screen</h1>
-
-    <a @click="startBattleMode">Battle Mode</a>
-    <br>
-    <a @click="startPartyMode">Party Mode</a>
-
-    <div>
-      Files Received: {{FilesReceived}}
+  <div class="main">
+    
+    <div class="bs-title"><img src="@/assets/ui/logo_black.svg" /></div>
+    
+    <div class="columns game-options">
+      <div @click="startBattleMode" class="column game-option">
+        <h4>Battle Mode</h4>
+        <p>A three-round match between two witty teams for one unholy prize.</p>
+      </div>
+      <div @click="startPartyMode" class="column game-option">
+        <h4>Party Mode</h4>
+        <p>A never-ending orgasm of BattleSlides.</p>
+      </div>
+    </div>
+    
+    <div class="files">
+      <p>While you wait... Add your own photos and videos! They may just pop up in one of these presentations... Go to https://adunndevster.github.io/battleslides-image</p>
+      
+      <div class="columns files-status">
+        <div class="column">
+          <div>Audience: {{AudienceCount}}</div>
+        </div>
+        <div class="column">
+          <div>Files Received: {{FilesReceived}}</div>
+        </div>
+      </div>
+      
+      
     </div>
   </div>
 </template>
@@ -21,7 +40,8 @@ export default {
   name: "title-screen",
   data: () => {
     return {
-      FilesReceived: 0
+      FilesReceived: 0,
+      AudienceCount: 0
     }
   },
   mounted() {
@@ -239,7 +259,7 @@ export default {
               return (bytes / Math.pow(k, i)).toPrecision(3) + ' ' + sizes[i];
           }
           function incrementOrDecrementUsers() {
-              //numberOfUsers.innerHTML = connection ? connection.getAllParticipants().length : 0;
+            vue.AudienceCount = connection ? connection.getAllParticipants().length : 0;
           }
           window.onerror = console.error = function() {
               var error = JSON.stringify(arguments);
@@ -274,195 +294,69 @@ export default {
 
 
 <style>
-        * {
-          margin: 0;
-          padding: 0;
-        }
-        ::-webkit-scrollbar {
-          height: 0;
-          overflow: visible;
-          width: 10px;
-          border-left:1px solid rgb(229, 229, 229);
-        }
-        ::-webkit-scrollbar-thumb {
-          background-color: rgba(0, 0, 0, .2);
-          background-clip: padding-box;
-          min-height: 28px;
-          padding: 100px 0 0;
-          box-shadow: inset 1px 1px 0 rgba(0,0,0,.1),inset 0 -1px 0 rgba(0,0,0,.07);
-          border-width: 1px 1px 1px 6px;
-        }
-        ::-webkit-scrollbar-button {
-          height: 0;
-          width: 0;
-        }
-        ::-webkit-scrollbar-track {
-          background-clip: padding-box;
-          border: solid transparent;
-          border-width: 0 0 0 4px;
-        }
-        ::-webkit-scrollbar-corner {
-          background: transparent;
-        }
-        html, body {
-          background-color: black;
-          font-family: 'Open Sans', 'Segoe UI Light','Segoe UI',Verdana,Arial;
-          font-size: 1.1em;
-          overflow: hidden;
-        }
-        .overlay {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: black;
-          z-index: 1;
-        }
-        .btn-select-file {
-          position: absolute;
-          z-index: 2;
-          left: 40%;
-          top: 40%;
-          width: 100px;
-          height: 100px;
-          -webkit-user-select: none;
-          border-radius: 50%;
-          text-shadow: 2px 2px white;
-          border: 1px solid #1B1B1B;
-          background-color: #D5D8D8;
-          cursor: pointer;
-          background-image: url(https://www.webrtc-experiment.com/images/btn-select-file.png);
-          outline: none;
-        }
-        .btn-select-file:hover {
-          background-color: #BBBBBB;
-        }
-        .btn-select-file:active {
-          background-color: #7F7B7B;
-        }
-        iframe {
-          position: absolute;
-          width: 80%;
-          height: 96%;
-          top: 87px;
-          left: 0;
-          right: 20;
-          bottom: 0;
-          border: 0;
-          outline: 0;
-          z-index: 5;
-          display: none;
-        }
-        #logs {
-          position: absolute;
-          background: white;
-          border-left: 1px solid black;
-          width: 20%;
-          top: 87px;
-          right: 0;
-          bottom: 0;
-          z-index: 6;
-          font-size: medium;
-          overflow: auto;
-          height: 100%;
-          border-top-left-radius: 5px;
-          font-size: 22px;
-        }
-        #logs p {
-          padding: 2px 4px;
-          border-bottom: 1px solid black;
-        }
-        header {
-          position: absolute;
-          text-align: center;
-          width: 100%;
-          height: 61px;
-          top: 0;
-          right: 0;
-          left: 0;
-          z-index: 7;
-          padding-top: 8px;
-          background: #EFEBEB;
-          border-bottom: 1px solid white;
-        }
-        #number-of-users {
-          position: absolute;
-          right: 60px;
-          top: 16px;
-          width: 36px;
-          height: 30px;
-          -webkit-user-select: none;
-          border-radius: 5px;
-          border: 1px solid #FFFFFF;
-          background-color: #E83930;
-          z-index: 8;
-          text-align: center;
-          padding-top: 6px;
-          color: white;
-        }
-        #join-room {
-          border: 1px solid black;
-          background: rgba(255, 255, 255, 0.28);
-          padding: 1px 3px;
-          border-left: 0;
-          font-size: 100%;
-          border-top-right-radius: 5px;
-          border-bottom-right-radius: 5px;
-        }
-         .android-app-icon {
-           background-repeat: no-repeat;
-           background-position: center center;
-           background-size: 64px 64px;
-           background-image: url(https://www.webrtc-experiment.com/images/android-app-icon.png);
-           width: 64px;
-           height: 64px;
-           position: absolute;
-           bottom: 5px;
-           left: 15px;
-           z-index: 9999;
-         }
-         .chrome-web-store-icon {
-          background-repeat: no-repeat;
-           background-position: center center;
-           background-size: 64px 64px;
-           background-image: url(https://www.webrtc-experiment.com/images/chrome-web-store-icon.png);
-           width: 64px;
-           height: 64px;
-           position: absolute;
-           bottom: 5px;
-           left: 90px;
-           z-index: 9999;
-         }
-        @media all and (max-width: 500px) {
-          #logs {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            top: auto;
-            height: 40%;
-            border-left: 0;
-            border-top: 1px solid black;
-            font-size: 18px;
-          }
-          .btn-select-file {
-            top: 20%;
-            left: 40%;
-          }
-          .ribbon{
-            height: 150%;
-            width: 80%;
-          }
-          .ribbon h1 {
-            font-size: 20px!important;
-          }
-          #number-of-users {
-            right: 50px;
-          }
-          .android-app-icon, .chrome-web-store-icon {
-            display: none;
-          }
-        }
-        hr {border:0;}
-    </style>
+  body, html {
+    background: rgb(255,255,255); /* Old browsers */
+    background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(243,243,243,1) 62%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(243,243,243,1) 62%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(243,243,243,1) 62%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f3f3f3',GradientType=0 ); /* IE6-9 */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .main {
+    margin: 100px;
+  }
+
+  .bs-title {
+    margin-top: 200px;
+  }
+
+  .game-options
+  {
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+  .game-options :hover
+  {
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    border-radius: 2px;
+  }
+
+  .game-option
+  {
+    margin-top: 120px;
+    padding-right: 100px;
+    padding-left: 100px;
+    cursor: pointer;
+  }
+  .game-option h4 {
+    font-size: 48px;
+    pointer-events: none;
+  }
+  .game-option p {
+    font-size: 26px;
+    pointer-events: none;
+  }
+
+  .files
+  {
+    position: absolute;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    border-radius: 2px;
+    padding: 36px;
+    max-width: 550px;
+    right: 100px;
+    bottom: 100px;
+    text-align: left;
+    font-size: 18px;
+  }
+  .files .files-status
+  {
+    margin-top: 20px;
+  }
+
+</style>

@@ -13,7 +13,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import { Component, Vue } from 'vue-property-decorator';
 import router from '../router';
 import { GameMode, GAME_MODE_BATTLE } from '../common/GameSettings';
