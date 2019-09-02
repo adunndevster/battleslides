@@ -1,6 +1,9 @@
 <template>
   <div class="main">
-    
+    <transition name="fade">
+      <div v-if="ShowOverlay" class="white-overlay"></div>
+    </transition>
+   
     <div class="bs-title"><img src="@/assets/ui/logo_black.svg" /></div>
     
     <div class="columns game-options">
@@ -41,12 +44,14 @@ export default {
   data: () => {
     return {
       FilesReceived: 0,
-      AudienceCount: 0
+      AudienceCount: 0,
+      ShowOverlay: true
     }
   },
   mounted() {
     window.getExternalIceServers = true;
     const vue = this;
+    this.ShowOverlay = false;
 
     GameSettings.CleanSlideData();
 
@@ -321,4 +326,21 @@ export default {
     margin-top: 20px;
   }
 
+  .white-overlay{
+    position: absolute;
+    left:0;
+    top:0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    z-index: 9999;
+  }
+
+  .fade-enter-active, .fade-leave-active {
+  transition: opacity 0.7s ease-out;
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
 </style>
