@@ -7,6 +7,31 @@
 <style lang="less">
 @import url('../node_modules/reveal.js/css/reveal.css');
 @import url('../node_modules/bulma/css/bulma.css');
+  
+@font-face {
+  font-family: EarwigFactory;
+  src: url("/fonts/earwig factory rg.ttf");
+}
+@font-face {
+  font-family: Misty;
+  src: url("/fonts/MISTV___.TTF");
+}
+@font-face {
+  font-family: Adler;
+  src: url("/fonts/Adler.ttf");
+}
+@font-face {
+  font-family: BurnstownDam;
+  src: url("/fonts/burnstown dam.ttf");
+}
+@font-face {
+  font-family: ComicAndy;
+  src: url("/fonts/comic_andy.ttf");
+}
+@font-face {
+  font-family: Jo;
+  src: url("/fonts/Jo_wrote_a_lovesong.ttf");
+}
 
 #app {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -26,4 +51,5 @@
     }
   }
 }
+
 </style>

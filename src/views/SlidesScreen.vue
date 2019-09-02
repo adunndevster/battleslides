@@ -1,5 +1,6 @@
 <template >
-  <div class="reveal">
+<div>
+  <div class="reveal full">
     <div class="slides">
 
         <section>
@@ -92,8 +93,12 @@
         </section>
     </div>
      <transition name="bounce">
-        <a id="btnContinue" @click="nextPresnetation" v-if="showContinueButton">Continue</a>
+        <a id="btnContinue" @click="nextPresentation" v-if="showContinueButton">Continue</a>
      </transition>
+
+</div>
+<TeamLogo class="team1-logo" v-show="Team1Turn || Round == 3" :team-logo-left="Team1LogoLeft" :team-logo-right="Team1LogoRight" :team-name="Team1Name" />
+<TeamLogo class="team2-logo" v-show="!Team1Turn || Round == 3" :team-logo-left="Team2LogoLeft" :team-logo-right="Team2LogoRight" :team-name="Team2Name" />
 </div>
 </template>
 
@@ -101,20 +106,15 @@
 import Reveal from 'reveal.js/js/reveal'
 import { GameMode, GameSettings, GAME_MODE_PARTY } from '../common/GameSettings';
 import router from '../router';
+import TeamLogo from '../components/TeamLogo';
 let vue = null;
 export default {
   name: 'slides-screen',
+  components: {
+    TeamLogo
+  },
   data: () => {
     
-
-    for (var key in GameSettings.SlideData) {
-      if (GameSettings.SlideData.hasOwnProperty(key)) {
-        GameSettings.SlideData[key] = GameSettings.SlideData[key].filter((item) => {
-          return item !== "" && item.indexOf('*') === -1;
-        })
-      }
-    }
-
     return {
       MainSubject: "Tacos",
       TitleActions: GameSettings.SlideData.TitleActions,
@@ -151,10 +151,17 @@ export default {
       RandomBG: "bg1.jpg",
       styleEl: null,
       showContinueButton: false,
-      customVideo: null
+      customVideo: null,
+      slideTransitionSound: null,
+      Team1Name: GameSettings.Team1Name,
+      Team1LogoLeft: GameSettings.Team1NameLeft,
+      Team1LogoRight: GameSettings.Team1NameRight,
+      Team2Name: GameSettings.Team2Name,
+      Team2LogoLeft: GameSettings.Team2NameLeft,
+      Team2LogoRight: GameSettings.Team2NameRight,
+      Round: GameSettings.GetRound(),
+      Team1Turn: GameSettings.Team1Turn
     }
-  },
-  components: {
   },
   mounted() {
     vue = this;
@@ -162,6 +169,7 @@ export default {
 
     this.loadSlideStyle();
     //this.shuffleSlides();
+    this.setupAudio();
     this.setupIntro();
     this.setupRandomStatement();
     this.setupChart();
@@ -193,8 +201,18 @@ export default {
     }, 1);
   },
   methods: {
+    setupAudio(){
+      const revealDiv = document.querySelector('.reveal');
+      this.slideTransitionSound = document.createElement("audio");
+      this.slideTransitionSound.src = require("@/assets/sounds/slide_transition.mp3");
+      this.slideTransitionSound.setAttribute("preload", "auto");
+      this.slideTransitionSound.setAttribute("controls", "none");
+      this.slideTransitionSound.style.display = "none";
+      revealDiv.appendChild(this.slideTransitionSound);
+    },
     slideChanged(event){
       this.showContinueButton = Reveal.isLastSlide();
+      this.slideTransitionSound.play();
     },
     shuffleSlides(){
       const slides = document.querySelector('.slides');
@@ -211,6 +229,7 @@ export default {
       this.MainSubject = randTitleSubject;
       this.Slide1Content = (randTitleAction.indexOf(' ') === 0 || 
                             randTitleAction.indexOf('.') === 0 || 
+                            randTitleAction.indexOf('?') === 0 || 
                             randTitleAction.indexOf(':') === 0 || 
                             randTitleAction.indexOf(',') === 0) ? randTitleSubject + randTitleAction : randTitleAction + randTitleSubject;
 
@@ -383,7 +402,8 @@ export default {
       const revealDiv = document.querySelector('.reveal');
       const slides = document.querySelector('.slides');
       slides.style.color = style["font-color"];
-      revealDiv.style.background = style.bg;
+      revealDiv.style.backgroundImage = style.bg;
+      revealDiv.style.textShadow = style["text-shadow"];
       for(let slide of slides.children)
       {
         if(style.bg.indexOf("jpg") > -1) slide.setAttribute("data-background", require(`@/assets/bgs/${style.bg}`));
@@ -397,6 +417,7 @@ export default {
       .reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
         color: ${style["header-color"]} !important;
         font-family: ${style["font"]} !important;
+        text-shadow: ${style["text-shadow"]} !important;
       }
       `;
 
@@ -405,9 +426,9 @@ export default {
       this.styleEl.type = "text/css";
       this.styleEl.appendChild(document.createTextNode(hStyles));
     },
-    nextPresnetation()
+    nextPresentation()
     {
-      if(GameMode === GAME_MODE_PARTY || GameSettings.GetRound() < 3 || GameSettings.Team1Turn)
+      if(GameMode === GAME_MODE_PARTY || GameSettings.GetRound() < 3)
       {
         GameSettings.NextPresentation();
         router.push("turn-screen");
@@ -468,4 +489,28 @@ export default {
     display: block;
   }
 
+  .full
+  {
+    position:absolute;
+    width: 100%;
+    height: 100vh;
+  }
+
+  .team1-logo {
+    position: absolute;
+    top: 20px;
+    left: 0px;
+    transform: scale(0.4);
+    filter: brightness(10%);
+    opacity: .3;
+  }
+
+  .team2-logo {
+    position: absolute;
+    top: 20px;
+    right: -88vw;
+    transform: scale(0.4);
+    filter: brightness(10%);
+    opacity: .3;
+  }
 </style>

@@ -48,6 +48,8 @@ export default {
     window.getExternalIceServers = true;
     const vue = this;
 
+    GameSettings.CleanSlideData();
+
     window.onerror = console.error = function() {
             var error = JSON.stringify(arguments);
             if(error.indexOf('Blocked a frame with origin') !== -1) {
@@ -182,8 +184,6 @@ export default {
               window.connection = connection;
           }
           function setFileProgressHandlers(connection) {
-              //var progressHelper = {};
-              // www.RTCMultiConnection.org/docs/onFileStart/
               connection.onFileStart = function(file) {
                   if (connection.fileReceived[file.size + file.name]) return;
                   let message = '';
@@ -191,49 +191,10 @@ export default {
                       message += 'Sharing with:' + file.remoteUserId;
                   } else {
                       message += 'Receiving from:' + file.userid;
-                  }
-                  // message += '<br><b>' + file.name + '</b>.';
-                  // message += '<br>Size: <b>' + bytesToSize(file.size) + '</b>';
-                  // message += '<br><label>0%</label> <progress></progress>';
-                  // if(file.userid !== connection.userid) {
-                  //     message += '<br><button id="resend">Receive Again?</button>';
-                  // }
-                  // if (!file.remoteUserId) {
-                  //     progressHelper[file.uuid] = {
-                  //         div: div,
-                  //         progress: div.querySelector('progress'),
-                  //         label: div.querySelector('label')
-                  //     };
-                  //     progressHelper[file.uuid].progress.max = file.maxChunks;
-                  //     return;
-                  // }
-                  // if (!progressHelper[file.uuid]) {
-                  //     progressHelper[file.uuid] = {};
-                  // }
-                  // progressHelper[file.uuid][file.remoteUserId] = {
-                  //     div: div,
-                  //     progress: div.querySelector('progress'),
-                  //     label: div.querySelector('label')
-                  // };
-                  // progressHelper[file.uuid][file.remoteUserId].progress.max = file.maxChunks;
               };
-              // www.RTCMultiConnection.org/docs/onFileProgress/
               connection.onFileProgress = function(chunk) {
                   if (connection.fileReceived[chunk.size + chunk.name]) return;
-                  // var helper = progressHelper[chunk.uuid];
-                  // if (!helper) {
-                  //     return;
-                  // }
-                  // if (chunk.remoteUserId) {
-                  //     helper = progressHelper[chunk.uuid][chunk.remoteUserId];
-                  //     if (!helper) {
-                  //         return;
-                  //     }
-                  // }
-                  // helper.progress.value = chunk.currentPosition || chunk.maxChunks || helper.progress.max;
-                  // updateLabel(helper.progress, helper.label);
               };
-              // www.RTCMultiConnection.org/docs/onFileEnd/
               connection.onFileEnd = function(file) {
                 if (connection.fileReceived[file.size + file.name]) return;
                 if (file.remoteUserId === connection.userid) {
@@ -271,6 +232,7 @@ export default {
           setupWebRTCConnection();
       }
       setupFileTransfer();
+    }
   },
   methods: {
     startBattleMode()
