@@ -71,7 +71,7 @@ export const GameSettings = {
     SetupGame: () => {
         GameSettings.Team1Turn = true;
         GameSettings.RandomizeTeamNames();
-        GameSettings.Presentation = 5;
+        GameSettings.Presentation = 1;
     },
     SetupBattleModeGame: () => {
         GameSettings.SetupGame();

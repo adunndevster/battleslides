@@ -491,17 +491,13 @@ export default {
       this.Team2Rebuttal = this.Team2Rebuttal.replace(/___/g, label);
     },
     setupTeam1Question() {
-      debugger
-      alert(GameSettings.SlideData.DebateQuestions.length)
       var question = GameSettings.SlideData.DebateQuestions[Math.floor(Math.random() * GameSettings.SlideData.DebateQuestions.length)];
       GameSettings.RemoveSlideDataItem(question, "DebateQuestions");
-      alert(GameSettings.SlideData.DebateQuestions.length)
       var verb = GameSettings.SlideData.DebateVerbs[Math.floor(Math.random() * GameSettings.SlideData.DebateVerbs.length)];
       GameSettings.RemoveSlideDataItem(verb, "DebateVerbs");
       this.Team1Question = question.replace(/___/g, verb).replace(/---/g, this.MainSubject).replace(/~~~/g, this.DebateConcern);
     },
     setupTeam2Question() {
-      alert(GameSettings.SlideData.DebateQuestions.length)
       var question = GameSettings.SlideData.DebateQuestions[Math.floor(Math.random() * GameSettings.SlideData.DebateQuestions.length)];
       GameSettings.RemoveSlideDataItem(question, "DebateQuestions");
       var verb = GameSettings.SlideData.DebateVerbs[Math.floor(Math.random() * GameSettings.SlideData.DebateVerbs.length)];
