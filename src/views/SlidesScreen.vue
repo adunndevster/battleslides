@@ -3,16 +3,15 @@
   <div class="reveal full">
     <div class="slides">
 
-        <section>
+        <section class="normal">
             <h2>{{Slide1Content}}</h2>
         </section>
       
-        <section>
+        <section class="normal">
             <h2>{{Slide2Content}}</h2>
-            
         </section>
 
-        <section>
+        <section class="normal">
           <h3>{{MainSubject}} and {{ChartMeasure}}</h3>
           <div class="columns is-vcentered">
             <div class="column">{{MainSubject}}</div>
@@ -25,7 +24,7 @@
           
         </section>
 
-        <section>
+        <section class="normal">
           <h2>{{MainSubject}}</h2>
           <div class="columns">
             <h3 class="column">Pros</h3>
@@ -49,11 +48,11 @@
           </div>
         </section>
 
-        <section>
+        <section class="normal">
           <h2>{{Demonstration}}</h2>
         </section>
 
-        <section>
+        <section class="normal">
             <h3>{{PointHeader}}</h3>
             <ul>
                 <li class="fragment">{{RandomPoints[0]}}</li>
@@ -62,35 +61,78 @@
             </ul>
         </section>
 
-        <section>
+        <section class="normal">
           <div class="random-image-div">
           </div>
           <img class="random-image" :src="require(`@/assets/random-images/${MainSubject}.png`)"/>
           <img :src="require(`@/assets/random-images/${RandomBG}`)"/>
         </section>
 
-        <section>
+        <section class="normal">
           <h3>{{RandomList}}</h3>
         </section>
 
-        <section>
+        <section class="normal">
           <h3>{{RandomAcronym}}</h3>
         </section>
 
-        <section>
+        <section class="normal">
           <h3>{{RandomSongText}}</h3>
           <audio data-autoplay :src="require(`@/assets/music/${RandomSongStyle}`)"></audio>
         </section>
 
-        <section data-state="customContentShow" id="customImageSection">
+        <section data-state="customContentShow" id="customImageSection"  class="normal">
           <div id="customContent" class = "stretch">
             <!-- <iframe style="width:100vw;height:50vh;" id="customImage"></iframe> -->
           </div>
         </section>
 
-        <section>
+        <section class="normal">
           <h2>{{Conclusion}}</h2>
         </section>
+
+        <!-- Debate Slides -->
+        <section class="debate">
+          <h2>Topic: {{DebateConcern}}</h2>
+        </section>
+
+        <section class="debate">
+          <h2>{{Team1Opening}}</h2>
+        </section>
+
+        <section class="debate">
+          <h2>{{Team2Opening}}</h2>
+        </section>
+
+        <section class="debate">
+          <h2>{{Team1Rebuttal}}</h2>
+        </section>
+
+        <section class="debate">
+          <h2>{{Team2Rebuttal}}</h2>
+        </section>
+
+        <section class="debate">
+          <h2>{{Team1Question}}</h2>
+        </section>
+
+        <section class="debate">
+          <h2>{{Team2Question}}</h2>
+        </section>
+
+        <section class="debate">
+          <h2>{{Team1Conclusion}}</h2>
+        </section>
+
+        <section class="debate">
+          <h2>{{Team2Conclusion}}</h2>
+        </section>
+
+        <section class="debate">
+          <h3>Everyone raise your hands who agrees with {{Team1Name}}</h3>
+          <h3 class="fragment">Everyone raise your hands who agrees with {{Team2Name}}</h3>
+        </section>
+
     </div>
      <transition name="bounce">
         <a id="btnContinue" @click="nextPresentation" v-if="showContinueButton">Continue</a>
@@ -134,6 +176,9 @@ export default {
       MusicStyles: GameSettings.SlideData.MusicStyles,
       MusicThings: GameSettings.SlideData.MusicThings,
       Conclusions: GameSettings.SlideData.Conclusions,
+      DebateConcerns: GameSettings.SlideData.DebateConcerns,
+      DebateForActions: GameSettings.SlideData.DebateForActions,
+      DebateAgainstActions: GameSettings.SlideData.DebateAgainstActions,
       Slide1Content: "",
       Slide2Content: "",
       ChartMeasure: "",
@@ -149,6 +194,15 @@ export default {
       RandomSongStyle: "rap1.mp3",
       Conclusion: "",
       RandomBG: "bg1.jpg",
+      DebateConcern: "",
+      Team1Opening: "",
+      Team2Opening: "",
+      Team1Rebuttal: "",
+      Team2Rebuttal: "",
+      Team1Question: "",
+      Team2Question: "",
+      Team1Conclusion: "",
+      Team2Conclusion: "",
       styleEl: null,
       showContinueButton: false,
       customVideo: null,
@@ -167,21 +221,37 @@ export default {
     vue = this;
     Reveal.reset();
 
-    this.loadSlideStyle();
-    //this.shuffleSlides();
     this.setupAudio();
-    this.setupIntro();
-    this.setupRandomStatement();
-    this.setupChart();
-    this.setupProsCons();
-    this.setupDemonstration();
-    this.setupPoints();
-    this.setupImage();
-    this.setupRandomList();
-    this.setupAcronym();
-    this.setupSong();
-    this.setupCustomImage();
-    this.setupConclusion();
+    if(vue.Round < 3)
+    {
+      this.hideDebateSlides();
+      this.loadSlideStyle();
+      //this.shuffleSlides();
+      this.setupIntro();
+      this.setupRandomStatement();
+      this.setupChart();
+      this.setupProsCons();
+      this.setupDemonstration();
+      this.setupPoints();
+      this.setupImage();
+      this.setupRandomList();
+      this.setupAcronym();
+      this.setupSong();
+      this.setupCustomImage();
+      this.setupConclusion();
+    } else {
+      this.hideNormalSlides();
+      this.loadSlideStyle();
+      this.setupTeam1Opening();
+      this.setupTeam2Opening();
+      this.setupTeam1Rebuttal();
+      this.setupTeam2Rebuttal();
+      this.setupTeam1Question();
+      this.setupTeam2Question();
+      this.setupTeam1Conclusion();
+      this.setupTeam2Conclusion();
+    }
+    
 
     Reveal.initialize({
       controls: false
@@ -387,6 +457,78 @@ export default {
     setupConclusion() {
       this.Conclusion = this.Conclusions[Math.floor(Math.random() * this.Conclusions.length)].replace(/___/g, this.MainSubject);
       GameSettings.RemoveSlideDataItem(this.Conclusion, "Conclusions");
+    },
+    setupTeam1Opening() {
+      const randTitleAction = this.TitleActions[Math.floor(Math.random() * this.TitleActions.length)];
+      const randTitleSubject = this.TitleSubjects[Math.floor(Math.random() * this.TitleSubjects.length)];
+      this.MainSubject = randTitleSubject;
+      GameSettings.RemoveSlideDataItem(randTitleSubject, "TitleSubjects");
+      this.DebateConcern = this.DebateConcerns[Math.floor(Math.random() * this.DebateConcerns.length)];
+      GameSettings.RemoveSlideDataItem(this.DebateConcern, "DebateConcerns");
+      this.Team1Opening = this.DebateForActions[Math.floor(Math.random() * this.DebateForActions.length)];
+      GameSettings.RemoveSlideDataItem(this.Team1Opening, "DebateForActions");
+      this.Team1Opening = this.Team1Opening
+                              .replace(/___/g, this.MainSubject)
+                              .replace(/---/g, this.DebateConcern);
+    },
+    setupTeam2Opening() {
+      this.Team2Opening = this.DebateAgainstActions[Math.floor(Math.random() * this.DebateAgainstActions.length)];
+      GameSettings.RemoveSlideDataItem(this.Team2Opening, "DebateAgainstActions");
+      this.Team2Opening = this.Team2Opening.replace(/___/g, this.MainSubject)
+                       .replace(/---/g, this.DebateConcern);
+    },
+    setupTeam1Rebuttal() {
+      debugger;
+      var label = GameSettings.SlideData.DebateLabels[Math.floor(Math.random() * GameSettings.SlideData.DebateLabels.length)];
+      this.Team1Rebuttal = GameSettings.SlideData.DebateRebuttals[Math.floor(Math.random() * GameSettings.SlideData.DebateRebuttals.length)];
+      GameSettings.RemoveSlideDataItem(this.Team1Rebuttal, "DebateRebuttals");
+      this.Team1Rebuttal = this.Team1Rebuttal.replace(/___/g, label);
+    },
+    setupTeam2Rebuttal() {
+      var label = GameSettings.SlideData.DebateLabels[Math.floor(Math.random() * GameSettings.SlideData.DebateLabels.length)];
+      this.Team2Rebuttal = GameSettings.SlideData.DebateRebuttals[Math.floor(Math.random() * GameSettings.SlideData.DebateRebuttals.length)];
+      GameSettings.RemoveSlideDataItem(this.Team2Rebuttal, "DebateRebuttals");
+      this.Team2Rebuttal = this.Team2Rebuttal.replace(/___/g, label);
+    },
+    setupTeam1Question() {
+      debugger
+      alert(GameSettings.SlideData.DebateQuestions.length)
+      var question = GameSettings.SlideData.DebateQuestions[Math.floor(Math.random() * GameSettings.SlideData.DebateQuestions.length)];
+      GameSettings.RemoveSlideDataItem(question, "DebateQuestions");
+      alert(GameSettings.SlideData.DebateQuestions.length)
+      var verb = GameSettings.SlideData.DebateVerbs[Math.floor(Math.random() * GameSettings.SlideData.DebateVerbs.length)];
+      GameSettings.RemoveSlideDataItem(verb, "DebateVerbs");
+      this.Team1Question = question.replace(/___/g, verb).replace(/---/g, this.MainSubject).replace(/~~~/g, this.DebateConcern);
+    },
+    setupTeam2Question() {
+      alert(GameSettings.SlideData.DebateQuestions.length)
+      var question = GameSettings.SlideData.DebateQuestions[Math.floor(Math.random() * GameSettings.SlideData.DebateQuestions.length)];
+      GameSettings.RemoveSlideDataItem(question, "DebateQuestions");
+      var verb = GameSettings.SlideData.DebateVerbs[Math.floor(Math.random() * GameSettings.SlideData.DebateVerbs.length)];
+      GameSettings.RemoveSlideDataItem(verb, "DebateVerbs");
+      this.Team2Question = question.replace(/___/g, verb).replace(/---/g, this.MainSubject).replace(/~~~/g, this.DebateConcern);
+    },
+    setupTeam1Conclusion() {
+      var conclusion = GameSettings.SlideData.DebateConclusions[Math.floor(Math.random() * GameSettings.SlideData.DebateConclusions.length)];
+      GameSettings.RemoveSlideDataItem(conclusion, "DebateConclusions");
+      var action = GameSettings.SlideData.DebateConclusionActions[Math.floor(Math.random() * GameSettings.SlideData.DebateConclusionActions.length)];
+      GameSettings.RemoveSlideDataItem(action, "DebateConclusionActions");
+      this.Team1Conclusion = conclusion.replace(/---/g, action).replace(/___/g, this.MainSubject).replace(/~~~/g, this.DebateConcern);
+    },
+    setupTeam2Conclusion() {
+      var conclusion = GameSettings.SlideData.DebateConclusions[Math.floor(Math.random() * GameSettings.SlideData.DebateConclusions.length)];
+      GameSettings.RemoveSlideDataItem(conclusion, "DebateConclusions");
+      var action = GameSettings.SlideData.DebateConclusionActions[Math.floor(Math.random() * GameSettings.SlideData.DebateConclusionActions.length)];
+      GameSettings.RemoveSlideDataItem(action, "DebateConclusionActions");
+      this.Team2Conclusion = conclusion.replace(/---/g, action).replace(/___/g, this.MainSubject).replace(/~~~/g, this.DebateConcern);
+    },
+    hideDebateSlides() {
+      const removeElements = (elms) => elms.forEach(el => el.remove());
+      removeElements( document.querySelectorAll(".debate") );
+    },
+    hideNormalSlides() {
+      const removeElements = (elms) => elms.forEach(el => el.remove());
+      removeElements( document.querySelectorAll(".normal") );
     },
     loadSlideStyle()
     {
