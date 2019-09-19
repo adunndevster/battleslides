@@ -139,8 +139,8 @@
      </transition>
 
 </div>
-<TeamLogo class="team1-logo" v-show="Team1Turn || Round == 3" :team-logo-left="Team1LogoLeft" :team-logo-right="Team1LogoRight" :team-name="Team1Name" />
-<TeamLogo class="team2-logo" v-show="!Team1Turn || Round == 3" :team-logo-left="Team2LogoLeft" :team-logo-right="Team2LogoRight" :team-name="Team2Name" />
+<TeamLogo class="team1-logo" v-show="ShowTeam1Logo" :team-logo-left="Team1LogoLeft" :team-logo-right="Team1LogoRight" :team-name="Team1Name" />
+<TeamLogo class="team2-logo" v-show="ShowTeam2Logo" :team-logo-left="Team2LogoLeft" :team-logo-right="Team2LogoRight" :team-name="Team2Name" />
 </div>
 </template>
 
@@ -214,6 +214,8 @@ export default {
       Team2LogoLeft: GameSettings.Team2NameLeft,
       Team2LogoRight: GameSettings.Team2NameRight,
       Round: GameSettings.GetRound(),
+      ShowTeam1Logo: false,
+      ShowTeam2Logo: false,
       Team1Turn: GameSettings.Team1Turn
     }
   },
@@ -252,7 +254,6 @@ export default {
       this.setupTeam2Conclusion();
     }
     
-
     Reveal.initialize({
       controls: false
     });
@@ -265,6 +266,7 @@ export default {
       }
     }, false );
 
+    this.updateLogos();
     //HACK to fix centering wonkiness.
     setTimeout(() => {
       window.dispatchEvent(new Event('resize'));
@@ -280,9 +282,30 @@ export default {
       this.slideTransitionSound.style.display = "none";
       revealDiv.appendChild(this.slideTransitionSound);
     },
+    updateLogos()
+    {
+
+      if(this.Round < 3)
+      {
+        let currentSlide = Reveal.getIndices();
+        this.ShowTeam1Logo = this.Team1Turn;
+        this.ShowTeam2Logo = !this.Team1Turn;
+      } else {
+        let currentSlide = Reveal.getIndices();
+        this.ShowTeam1Logo = currentSlide.h % 2 == 1;
+        this.ShowTeam2Logo = currentSlide.h % 2 == 0;
+        if(Reveal.isLastSlide() || Reveal.isFirstSlide())
+        {
+          this.ShowTeam1Logo = true;
+          this.ShowTeam2Logo = true;
+        }
+        
+      }
+    },
     slideChanged(event){
       this.showContinueButton = Reveal.isLastSlide();
       this.slideTransitionSound.play();
+      this.updateLogos();
     },
     shuffleSlides(){
       const slides = document.querySelector('.slides');
@@ -478,7 +501,6 @@ export default {
                        .replace(/---/g, this.DebateConcern);
     },
     setupTeam1Rebuttal() {
-      debugger;
       var label = GameSettings.SlideData.DebateLabels[Math.floor(Math.random() * GameSettings.SlideData.DebateLabels.length)];
       this.Team1Rebuttal = GameSettings.SlideData.DebateRebuttals[Math.floor(Math.random() * GameSettings.SlideData.DebateRebuttals.length)];
       GameSettings.RemoveSlideDataItem(this.Team1Rebuttal, "DebateRebuttals");

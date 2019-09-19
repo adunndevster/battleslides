@@ -3,10 +3,13 @@
   <h2>
     Round {{Round}}
   </h2>
-  <div>
+  <div v-show="Round < 3">
     {{TeamName}}'s turn!
 
     <TeamLogo :team-logo-left="TeamLogoLeft" :team-logo-right="TeamLogoRight" :team-name="TeamName" />
+  </div>
+  <div v-show="Round === 3">
+    Final Round! Funky video by Guy intervening, and talking about a debate!
   </div>
 </div>
 </template>
