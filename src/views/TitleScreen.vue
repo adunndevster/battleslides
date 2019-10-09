@@ -1,36 +1,48 @@
 <template>
   <div class="main">
-    <transition name="fade">
+    <!-- <transition name="fade">
       <div v-if="ShowOverlay" class="white-overlay"></div>
-    </transition>
+    </transition> -->
    
-    <div class="bs-title"><img src="@/assets/ui/logo_black.svg" /></div>
+    <video id="vidIntro" src="@/assets/animations/presentation_room.mp4" preload="true" autoplay loop />
+
+    <div class="menu">
+      <div class="bs-title"><img src="@/assets/ui/logo_black_solid.svg" /></div>
     
-    <div class="columns game-options">
-      <div @click="startBattleMode" class="column game-option">
-        <h4>Battle Mode</h4>
-        <p>A three-round match between two witty teams for one unholy prize.</p>
-      </div>
-      <div @click="startPartyMode" class="column game-option">
-        <h4>Party Mode</h4>
-        <p>A never-ending orgasm of BattleSlides.</p>
-      </div>
-    </div>
-    
-    <div class="files">
-      <p>While you wait... Add your own photos and videos! They may just pop up in one of these presentations... Go to https://adunndevster.github.io/battleslides-image</p>
-      
-      <div class="columns files-status">
+      <div class="columns game-options">
         <div class="column">
-          <div>Audience: {{AudienceCount}}</div>
+          <div @click="startBattleMode" class="game-option">
+            <h4>BATTLE MODE</h4>
+            <p>A three-round match between two witty teams for one unholy prize.</p>
+          </div>
+          <div @click="startPartyMode" class="game-option">
+            <h4>PARTY MODE</h4>
+            <p>A never-ending series of BattleSlides.</p>
+          </div>
         </div>
+
         <div class="column">
-          <div>Files Received: {{FilesReceived}}</div>
+          <div class="files">
+          <h4>ADD CUSTOM CONTENT</h4>
+          <p>Simply go to cutt.ly/battleslides!</p>
+          <br>
+          <p>WARNING: Any content you add* will probably be seen by all the jokers playing this game with you :)</p>
+          
+          <div class="columns files-status">
+            <div class="column">
+              <div>Audience: {{AudienceCount}}</div>
+            </div>
+            <div class="column">
+              <div>Items Received: {{FilesReceived}}</div>
+            </div>
+          </div>
         </div>
+        </div>
+        
       </div>
       
-      
-    </div>
+    </div> 
+
   </div>
 </template>
 
@@ -189,6 +201,8 @@ export default {
               window.connection = connection;
           }
           function setFileProgressHandlers(connection) {
+              //var progressHelper = {};
+              // www.RTCMultiConnection.org/docs/onFileStart/
               connection.onFileStart = function(file) {
                   if (connection.fileReceived[file.size + file.name]) return;
                   let message = '';
@@ -196,10 +210,49 @@ export default {
                       message += 'Sharing with:' + file.remoteUserId;
                   } else {
                       message += 'Receiving from:' + file.userid;
+                  }
+                  // message += '<br><b>' + file.name + '</b>.';
+                  // message += '<br>Size: <b>' + bytesToSize(file.size) + '</b>';
+                  // message += '<br><label>0%</label> <progress></progress>';
+                  // if(file.userid !== connection.userid) {
+                  //     message += '<br><button id="resend">Receive Again?</button>';
+                  // }
+                  // if (!file.remoteUserId) {
+                  //     progressHelper[file.uuid] = {
+                  //         div: div,
+                  //         progress: div.querySelector('progress'),
+                  //         label: div.querySelector('label')
+                  //     };
+                  //     progressHelper[file.uuid].progress.max = file.maxChunks;
+                  //     return;
+                  // }
+                  // if (!progressHelper[file.uuid]) {
+                  //     progressHelper[file.uuid] = {};
+                  // }
+                  // progressHelper[file.uuid][file.remoteUserId] = {
+                  //     div: div,
+                  //     progress: div.querySelector('progress'),
+                  //     label: div.querySelector('label')
+                  // };
+                  // progressHelper[file.uuid][file.remoteUserId].progress.max = file.maxChunks;
               };
+              // www.RTCMultiConnection.org/docs/onFileProgress/
               connection.onFileProgress = function(chunk) {
                   if (connection.fileReceived[chunk.size + chunk.name]) return;
+                  // var helper = progressHelper[chunk.uuid];
+                  // if (!helper) {
+                  //     return;
+                  // }
+                  // if (chunk.remoteUserId) {
+                  //     helper = progressHelper[chunk.uuid][chunk.remoteUserId];
+                  //     if (!helper) {
+                  //         return;
+                  //     }
+                  // }
+                  // helper.progress.value = chunk.currentPosition || chunk.maxChunks || helper.progress.max;
+                  // updateLabel(helper.progress, helper.label);
               };
+              // www.RTCMultiConnection.org/docs/onFileEnd/
               connection.onFileEnd = function(file) {
                 if (connection.fileReceived[file.size + file.name]) return;
                 if (file.remoteUserId === connection.userid) {
@@ -237,7 +290,6 @@ export default {
           setupWebRTCConnection();
       }
       setupFileTransfer();
-    }
   },
   methods: {
     startBattleMode()
@@ -274,52 +326,68 @@ export default {
     margin: 100px;
   }
 
-  .bs-title {
-    margin-top: 200px;
+  .main video
+  {
+    width: 100vw;
+    position: absolute;
+    left: 0px;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
   }
 
-  .game-options
+  .menu
   {
-    padding-left: 100px;
-    padding-right: 100px;
+    position: absolute;
+    z-index: 100;
+    left: 31%;
+    top: 8%;
+    width: 55%;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 600;
   }
-  .game-options :hover
-  {
-    border-style: solid;
-    border-color: black;
-    border-width: 1px;
-    border-radius: 2px;
+
+  .menu h4 {
+    font-weight: 600;
   }
+
+  .bs-title {
+    position: relative;
+    margin: 0 auto;
+    width: 60%;
+  }
+
 
   .game-option
   {
-    margin-top: 120px;
-    padding-right: 100px;
-    padding-left: 100px;
+    margin-top: 12%;
     cursor: pointer;
+    border: 3px dashed #000000;
+    text-align: left;
+    padding: 5%;
   }
   .game-option h4 {
-    font-size: 48px;
+    font-size: 40px;
     pointer-events: none;
   }
   .game-option p {
-    font-size: 26px;
+    font-size: 22px;
     pointer-events: none;
+  }
+  .game-option:hover{
+    background-color: rgba(255, 255, 255, 1)
   }
 
   .files
   {
-    position: absolute;
-    border-style: solid;
-    border-color: black;
-    border-width: 1px;
-    border-radius: 2px;
     padding: 36px;
     max-width: 550px;
-    right: 100px;
-    bottom: 100px;
     text-align: left;
     font-size: 18px;
+    margin-top: 20%;
+  }
+  .files h4{
+    font-size: 40px;
   }
   .files .files-status
   {
@@ -335,12 +403,12 @@ export default {
     background-color: white;
     z-index: 9999;
   }
-
+/* 
   .fade-enter-active, .fade-leave-active {
   transition: opacity 0.7s ease-out;
 }
 
 .fade-enter, .fade-leave-to {
   opacity: 0;
-}
+} */
 </style>

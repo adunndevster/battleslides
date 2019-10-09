@@ -1,7 +1,6 @@
 <template>
   <div class="home">
-    Made by Rob and Adam
-    <!-- <video id="vidIntro" src="@/assets/animations/title-intro.mp4" preload="true" autoplay /> -->
+    <video id="vidIntro" src="@/assets/animations/outside.mp4" preload="true" autoplay />
   </div>
 </template>
 
@@ -11,13 +10,13 @@ import router from '../router';
 
 @Component({
   mounted () {
-    setTimeout(() => {
-      router.push("title-screen");
-    }, 1000)
-    // let video = document.getElementById('vidIntro');
-    // video.onended = (event) => {
+    // setTimeout(() => {
     //   router.push("title-screen");
-    // }
+    // }, 1000)
+    let video = document.getElementById('vidIntro');
+    video.onended = (event) => {
+      router.push("title-screen");
+    }
 
   }
 })
