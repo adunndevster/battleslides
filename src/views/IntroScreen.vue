@@ -8,11 +8,9 @@
       Party Mode! Play the right intro video
     </div>
 
-    <router-link to="turn-screen">
-      <transition name="bounce">
-        <a id="btnSkip"  v-if="showSkipButton">Skip</a>
-      </transition>
-    </router-link>
+    <transition name="bounce">
+      <a id="btnSkip" @click="doSkip"  v-if="showSkipButton">Skip</a>
+    </transition>
      
   </div>
 </template>
@@ -23,6 +21,7 @@ import router from '../router';
 import { GameMode, GAME_MODE_BATTLE, GameSettings } from '../common/GameSettings';
 import TeamLogo from '../components/TeamLogo.vue';
 
+let vue;
 export default {
   name: "intro-screen",
   components: {
@@ -37,12 +36,13 @@ export default {
       Team2LogoRight: GameSettings.Team2NameRight,
       Team1Name: GameSettings.Team1Name,
       Team2Name: GameSettings.Team2Name,
-      showSkipButton: false
+      showSkipButton: false,
+      playhead: 0,
+      videoTrack: []
     }
   },
   mounted () {
-    const vue = this;
-    let playhead = 0;
+    vue = this;
     const vid1 = document.getElementById('vid1');
     const vid2 = document.getElementById('vid2');
     const quip = require("@/assets/animations/guy_up_close_kegels.mp4");
@@ -51,22 +51,61 @@ export default {
     const p3 = require("@/assets/animations/intro_game_part3.mp4");
     const loop = require("@/assets/animations/intro_game_team_loop.mp4");
     const p4 = require("@/assets/animations/intro_game_part4.mp4");
-    let videoTrack = [quip, p2, where, p3, loop, p4];
+    const p5 = require("@/assets/animations/intro_game_part5.mp4");
+    vue.videoTrack = [quip, p2, where, p3, loop, p4, p5];
 
     vid1.onended = vid2.onended = vidOnEnded;
 
     function vidOnEnded(event){
-      if(playhead%2 === 0)
+      if(vue.playhead%2 === 0)
       {
-        vid2.src = videoTrack[playhead++];
+        vid2.src = vue.videoTrack[vue.playhead++];
         window.setTimeout(() => vid2.setAttribute('style', 'display:block;'), 250);
       } else {
-        vid1.src = videoTrack[playhead++];
+        vid1.src = vue.videoTrack[vue.playhead++];
         window.setTimeout(() => vid2.setAttribute('style', 'display:none;'), 250);
+      }
+
+      const currentVid = event.target;
+      if(currentVid.src.indexOf('rodeo') > -1)
+      {
+        vid1.autoplay = true;
+        vid2.autoplay = true;
+      }
+
+      if(vue.playhead === vue.videoTrack.length + 1)
+      {
+        router.push("turn-screen");
       }
     }
 
     window.setTimeout(() => vue.showSkipButton = true, 500);
+  },
+  methods: {
+    doSkip()
+    {
+      vue.showSkipButton = false;
+      const rodeo = require("@/assets/animations/guy_rodeo.mp4");
+      if(vue.playhead%2 === 0)
+      {
+        vid2.src = rodeo;
+        window.setTimeout(() => {
+          vid1.autoplay = false;
+          vid1.src = vue.videoTrack[vue.videoTrack.length - 1];
+          vid2.setAttribute('style', 'display:block;')
+        }, 250);
+      } else {
+        vid1.src = rodeo;
+        window.setTimeout(() => {
+          vid2.autoplay = false;
+          vid2.src = vue.videoTrack[vue.videoTrack.length - 1];
+          vid2.setAttribute('style', 'display:none;')
+        }, 250);
+      }
+
+      vue.playhead = vue.videoTrack.length - 1;
+
+    }
   }
 }
 </script>
