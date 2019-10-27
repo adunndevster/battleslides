@@ -562,6 +562,7 @@ export default {
       const revealDiv = document.querySelector('.reveal');
       const slides = document.querySelector('.slides');
       slides.style.color = style["font-color"];
+      revealDiv.style.backgroundColor = style.bg;
       revealDiv.style.backgroundImage = style.bg;
       revealDiv.style.textShadow = style["text-shadow"];
       for(let slide of slides.children)
