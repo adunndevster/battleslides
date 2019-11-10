@@ -6,7 +6,8 @@
    
     <video id="vidIntro" src="@/assets/animations/presentation_room.mp4" preload="true" autoplay loop />
 
-    <div class="menu">
+    <transition name="slide">
+    <div class="menu" v-if="ShowMenu">
       <div class="bs-title"><img src="@/assets/ui/logo_black_solid.svg" /></div>
     
       <div class="columns game-options">
@@ -42,6 +43,13 @@
       </div>
       
     </div> 
+    </transition>
+
+    <transition name="slide">
+      <div class="welcome" v-if="ShowWelcome">
+        <img src="@/assets/images/welcome_image.png" />
+      </div>
+    </transition>
 
   </div>
 </template>
@@ -57,7 +65,9 @@ export default {
     return {
       FilesReceived: 0,
       AudienceCount: 0,
-      ShowOverlay: true
+      ShowOverlay: true,
+      ShowMenu: true,
+      ShowWelcome: false
     }
   },
   mounted() {
@@ -295,7 +305,10 @@ export default {
     startBattleMode()
     {
       GameSettings.SetupBattleModeGame();
-      router.push("intro-screen");
+      
+      this.ShowMenu = false;
+      this.ShowWelcome = true;
+      //router.push("intro-screen");
     },
     startPartyMode()
     {
@@ -336,7 +349,7 @@ export default {
     transform: translateY(-50%);
   }
 
-  .menu
+  .menu, .welcome
   {
     position: absolute;
     z-index: 100;
@@ -402,6 +415,26 @@ export default {
     height: 100%;
     background-color: white;
     z-index: 9999;
+  }
+
+
+  .slide-enter-active {
+    transform: translateX(5%);
+    opacity: 0;
+    animation: slide-in .5s .6s;
+  }
+  .slide-leave-active {
+    animation: slide-in .5s reverse;
+  }
+  @keyframes slide-in {
+    0% {
+      opacity: 0;
+      transform: translateX(-5%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0%);
+    }
   }
 /* 
   .fade-enter-active, .fade-leave-active {
