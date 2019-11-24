@@ -1,16 +1,13 @@
 <template>
 <div class="main">
-  <div v-show="Round < 3" class="intro-presentation-screen">
+  <div class="intro-presentation-screen">
     <video id="vid" preload="true" autoplay />
 
-    <TeamLogo :team-logo-left="TeamLogoLeft" :team-logo-right="TeamLogoRight" :team-name="TeamName" />
+    <TeamLogo :team-logo-left="TeamLogoLeft" :team-logo-right="TeamLogoRight" :team-name="TeamName" v-show="Round < 3"/>
 
-    <h2 class="round-title">
+    <h2 class="round-title" v-show="Round < 3">
       Round {{Round}}
     </h2>
-  </div>
-  <div v-show="Round === 3">
-    Final Round! Funky video by Guy intervening, and talking about a debate!
   </div>
 </div>
 </template>
@@ -35,16 +32,26 @@ import TeamLogo from '../components/TeamLogo';
     }
   },
   mounted () {
-    setTimeout(() => {
-      router.push("slides-screen");
-    }, 6000)
     this.playVideo();
   },
   methods: {
     playVideo()
     {
-      const vid = document.getElementById('vid');
-      vid.src = require("@/assets/animations/turn_" + Math.ceil(Math.random() * 3) + ".mp4");
+      if(this.Round < 3)
+      {
+        setTimeout(() => {
+          router.push("slides-screen");
+        }, 6000)
+        const vid = document.getElementById('vid');
+        vid.src = require("@/assets/animations/turn_" + Math.ceil(Math.random() * 3) + ".mp4");
+      } else {
+        const vid = document.getElementById('vid');
+        vid.src = require("@/assets/animations/debate_game_part1.mp4");
+        vid.onended = function() {
+          router.push("slides-screen");
+        };
+      }
+      
     }
   }
 })

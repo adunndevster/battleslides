@@ -308,7 +308,7 @@ export default {
       
       this.ShowMenu = false;
       this.ShowWelcome = true;
-      //router.push("intro-screen");
+      setTimeout(() => {router.push("intro-screen")}, 1500);
     },
     startPartyMode()
     {
