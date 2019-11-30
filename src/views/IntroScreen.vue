@@ -8,6 +8,13 @@
       Party Mode! Play the right intro video
     </div>
 
+    <transition name="slide">
+      <div class="logos" v-if="ShowLogos">
+        <TeamLogo class="team1" :team-logo-left="Team1LogoLeft" :team-logo-right="Team1LogoRight" :team-name="Team1Name" />
+        <TeamLogo class="team2" :team-logo-left="Team2LogoLeft" :team-logo-right="Team2LogoRight" :team-name="Team2Name" />
+      </div>
+    </transition>
+
     <transition name="bounce">
       <a id="btnSkip" @click="doSkip"  v-if="showSkipButton">Skip</a>
     </transition>
@@ -36,6 +43,7 @@ export default {
       Team2LogoRight: GameSettings.Team2NameRight,
       Team1Name: GameSettings.Team1Name,
       Team2Name: GameSettings.Team2Name,
+      ShowLogos: false,
       showSkipButton: false,
       playhead: 0,
       videoTrack: []
@@ -55,6 +63,8 @@ export default {
     vue.videoTrack = [quip, p2, where, p3, loop, p4, p5];
 
     vid1.onended = vid2.onended = vidOnEnded;
+
+    vid1.ontimeupdate = vid2.ontimeupdate = vidOnTimeUpdate;
 
     function vidOnEnded(event){
       if(vue.playhead%2 === 0)
@@ -76,6 +86,20 @@ export default {
       if(vue.playhead === vue.videoTrack.length + 1)
       {
         router.push("turn-screen");
+      }
+    }
+
+    function vidOnTimeUpdate(event)
+    {
+      const vid = event.target;
+      if(vid.src.indexOf(p3) != -1 && vid.currentTime >= 35 && vid.currentTime <= 36)
+      {
+        vue.ShowLogos = true;
+      }
+
+      if(vid.src.indexOf(p4) != -1 && vid.currentTime >= 2 && vid.currentTime <= 3)
+      {
+        vue.ShowLogos = false;
       }
     }
 
@@ -138,6 +162,51 @@ export default {
     100% {
       transform: scale(1);
     }
+  }
+
+  .slide-enter-active {
+    transform: translateX(5%);
+    opacity: 0;
+    animation: slide-in .5s .6s;
+  }
+  .slide-leave-active {
+    animation: slide-in .5s reverse;
+  }
+  @keyframes slide-in {
+    0% {
+      opacity: 0;
+      transform: translateX(-5%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0%);
+    }
+  }
+
+  .logos{
+    position: absolute;
+    left:3%;
+    margin-top:3vh;
+    width: 93vw;
+    height: 25.5vw;
+  }
+
+  .logos .team1
+  {
+    width: 10vw;
+    position: absolute;
+    left: 15%;
+    top: 22vh;
+    transform: translateY(-50%);
+  }
+
+  .logos .team2
+  {
+    width: 10vw;
+    position: absolute;
+    right: 15%;
+    top: 22vh;
+    transform: translateY(-50%);
   }
   
 </style>

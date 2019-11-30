@@ -35,7 +35,7 @@ export default {
 .team-logo-container{
   position: absolute;
   width: 200px;
-  height: 200px;
+  /* height: 200px; */
   z-index: 9999;
   font-size: 32px;
 }
