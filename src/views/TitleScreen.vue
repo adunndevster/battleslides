@@ -71,6 +71,7 @@ export default {
     }
   },
   mounted() {
+
     window.getExternalIceServers = true;
     const vue = this;
     this.ShowOverlay = false;
@@ -304,6 +305,7 @@ export default {
   methods: {
     startBattleMode()
     {
+      document.body.requestFullscreen();
       GameSettings.SetupBattleModeGame();
       
       this.ShowMenu = false;

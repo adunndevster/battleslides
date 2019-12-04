@@ -659,7 +659,7 @@ export default {
 
   .team1-logo {
     position: absolute;
-    top: 20px;
+    top: -60px;
     left: 0px;
     transform: scale(0.4);
     filter: brightness(10%);
@@ -668,7 +668,7 @@ export default {
 
   .team2-logo {
     position: absolute;
-    top: 20px;
+    top: -60px;
     right: -88vw;
     transform: scale(0.4);
     filter: brightness(10%);

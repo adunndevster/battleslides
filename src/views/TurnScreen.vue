@@ -72,7 +72,7 @@ export default class TurnScreen extends Vue {}
 
 .team-logo-container{
   left: 50%;
-  top: 45%;
+  top: 42%;
   transform: translate(-50%, -100%);
   width: 300px;
   height: 300px;

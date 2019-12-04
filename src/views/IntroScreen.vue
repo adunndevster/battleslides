@@ -108,6 +108,7 @@ export default {
   methods: {
     doSkip()
     {
+      vue.ShowLogos = false; 
       vue.showSkipButton = false;
       const rodeo = require("@/assets/animations/guy_rodeo.mp4");
       if(vue.playhead%2 === 0)
@@ -193,20 +194,20 @@ export default {
 
   .logos .team1
   {
-    width: 10vw;
+    /* width: 10vw; */
     position: absolute;
-    left: 15%;
+    left: 13%;
     top: 22vh;
-    transform: translateY(-50%);
+    transform: translateY(-50%) scale(.8);
   }
 
   .logos .team2
   {
-    width: 10vw;
+    /* width: 10vw; */
     position: absolute;
-    right: 15%;
+    right: 13%;
     top: 22vh;
-    transform: translateY(-50%);
+    transform: translateY(-50%) scale(.8);
   }
   
 </style>
