@@ -3,7 +3,20 @@
   <div class="reveal full">
     <div class="slides">
 
-        <section class="normal">
+        <section class="normal company">
+            <div class="columns is-vcentered">
+              <div class="column is-three-quarters">
+                <h4>Let me tell you a little bit about the company I'm representing... {{(ShowTeam1Logo) ? Team1Name : Team2Name}}</h4>
+                <h4 class="fragment">And now onto my presentation about {{MainSubject}}</h4>
+              </div>
+              <div class="column is-one-quarter">
+                <TeamLogo v-show="ShowTeam1Logo" style="top:0px;" :team-logo-left="Team1LogoLeft" :team-logo-right="Team1LogoRight" :team-name="Team1Name" />
+                <TeamLogo v-show="ShowTeam2Logo" :team-logo-left="Team2LogoLeft" :team-logo-right="Team2LogoRight" :team-name="Team2Name" />
+              </div>
+            </div>
+        </section>
+
+        <section class="normal intro">
             <h2>{{Slide1Content}}</h2>
         </section>
       
@@ -31,18 +44,18 @@
             <h3 class="column">Cons</h3>
           </div>
           <div class="columns">
-            <div class="column">
+            <div class="column fragment">
               <ul>
-                <li class="fragment">{{RandomPros[0]}}</li>
-                <li class="fragment">{{RandomPros[1]}}</li>
-                <li class="fragment">{{RandomPros[2]}}</li>
+                <li>{{RandomPros[0]}}</li>
+                <li>{{RandomPros[1]}}</li>
+                <li>{{RandomPros[2]}}</li>
               </ul>  
             </div>
-            <div class="column">
+            <div class="column fragment">
               <ul>
-                <li class="fragment">{{RandomCons[0]}}</li>
-                <li class="fragment">{{RandomCons[1]}}</li>
-                <li class="fragment">{{RandomCons[2]}}</li>
+                <li>{{RandomCons[0]}}</li>
+                <li>{{RandomCons[1]}}</li>
+                <li>{{RandomCons[2]}}</li>
               </ul>  
             </div>
           </div>
@@ -226,9 +239,16 @@ export default {
     this.setupAudio();
     if(vue.Round < 3)
     {
+      const removeElements = (elms) => elms.forEach(el => el.remove());
+      if(vue.Round !== 1)
+      {
+        removeElements( document.querySelectorAll(".company") );
+      } else {
+        removeElements( document.querySelectorAll(".intro") );
+      }
       this.hideDebateSlides();
       this.loadSlideStyle();
-      //this.shuffleSlides();
+      this.shuffleSlides();
       this.setupIntro();
       this.setupRandomStatement();
       this.setupChart();
@@ -480,6 +500,12 @@ export default {
     setupConclusion() {
       this.Conclusion = this.Conclusions[Math.floor(Math.random() * this.Conclusions.length)].replace(/___/g, this.MainSubject);
       GameSettings.RemoveSlideDataItem(this.Conclusion, "Conclusions");
+
+      //now remove some slides to shorten the presentation
+      const slides = document.querySelector('.slides');
+      slides.removeChild(slides.children[slides.children.length-2]);
+      slides.removeChild(slides.children[slides.children.length-2]);
+      slides.removeChild(slides.children[slides.children.length-2]);
     },
     setupTeam1Opening() {
       const randTitleAction = this.TitleActions[Math.floor(Math.random() * this.TitleActions.length)];
@@ -669,7 +695,7 @@ export default {
   .team2-logo {
     position: absolute;
     top: -60px;
-    right: -88vw;
+    right: 0vw;
     transform: scale(0.4);
     filter: brightness(10%);
     opacity: .3;

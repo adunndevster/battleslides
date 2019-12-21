@@ -17,6 +17,7 @@
 
     <transition name="bounce">
       <a id="btnSkip" @click="doSkip"  v-if="showSkipButton">Skip</a>
+      <a id="btnReady" @click="doReady"  v-if="showReadyButton">We're Ready!</a>
     </transition>
      
   </div>
@@ -45,6 +46,7 @@ export default {
       Team2Name: GameSettings.Team2Name,
       ShowLogos: false,
       showSkipButton: false,
+      showReadyButton: false,
       playhead: 0,
       videoTrack: []
     }
@@ -67,15 +69,18 @@ export default {
     vid1.ontimeupdate = vid2.ontimeupdate = vidOnTimeUpdate;
 
     function vidOnEnded(event){
+
       if(vue.playhead%2 === 0)
       {
         vid2.src = vue.videoTrack[vue.playhead++];
         window.setTimeout(() => vid2.setAttribute('style', 'display:block;'), 250);
+        handleLoop(vid2);
       } else {
         vid1.src = vue.videoTrack[vue.playhead++];
         window.setTimeout(() => vid2.setAttribute('style', 'display:none;'), 250);
+        handleLoop(vid1);
       }
-
+      
       const currentVid = event.target;
       if(currentVid.src.indexOf('rodeo') > -1)
       {
@@ -86,6 +91,20 @@ export default {
       if(vue.playhead === vue.videoTrack.length + 1)
       {
         router.push("turn-screen");
+      }
+    }
+
+    function handleLoop(vid)
+    {
+      if(vue.videoTrack[vue.playhead] == p4)
+      {
+        vid.loop = true;
+        vue.showReadyButton = true;
+        vue.showSkipButton = false;
+      } else {
+        vid1.loop = vid2.loop = false;
+        vue.showReadyButton = false;
+        vue.showSkipButton = true;
       }
     }
 
@@ -130,13 +149,41 @@ export default {
 
       vue.playhead = vue.videoTrack.length - 1;
 
+    },
+    doReady()
+    {
+      vue.showSkipButton = true;
+      vue.showReadyButton = false;
+      vid1.loop = vid2.loop = false;
+      vid1.autoplay = vid2.autoplay = true;
+      if(vue.playhead%2 === 0)
+      {
+        vid1.pause();
+        vid2.src = vue.videoTrack[vue.playhead++];
+        window.setTimeout(() => vid2.setAttribute('style', 'display:block;'), 250);
+      } else {
+        vid2.pause();
+        vid1.src = vue.videoTrack[vue.playhead++];
+        window.setTimeout(() => vid2.setAttribute('style', 'display:none;'), 250);
+      }
+
     }
-  }
+  },
 }
 </script>
 
 <style scoped>
   #btnSkip {
+    z-index: 1000;
+    position: absolute;
+    bottom: 90px;
+    right: 90px;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 600;
+    font-size: 48px;
+  } 
+
+  #btnReady {
     z-index: 1000;
     position: absolute;
     bottom: 90px;
