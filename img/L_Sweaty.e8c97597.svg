@@ -1,0 +1,16 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="50px" height="80px" viewBox="0 0 50 80">
+<defs>
+<g id="L_Sweaty_0_Layer0_0_FILL">
+<path fill="#0083B6" stroke="none" d="
+M 649.85 381.85
+Q 670.95 360.75 670.95 330.95 670.95 301.15 646.45 232.9 621.95 164.6 592.95 175.95 563.95 187.35 545.45 244.25 526.95 301.15 526.95 330.95 526.95 360.75 548.05 381.85 569.15 402.95 598.95 402.95 628.75 402.95 649.85 381.85 Z"/>
+</g>
+</defs>
+
+<g transform="matrix( 1, 0, 0, 1, 0,0) ">
+<g transform="matrix( 0.35040283203125, 0, 0, 0.35040283203125, -184.65,-61.1) ">
+<use xlink:href="#L_Sweaty_0_Layer0_0_FILL"/>
+</g>
+</g>
+</svg>
