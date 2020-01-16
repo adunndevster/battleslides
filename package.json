@@ -6,7 +6,15 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "deploy": "npm run build; push-dir --dir=dist --branch=gh-pages --cleanup"
+    "deploy": "npm run build; push-dir --dir=dist --branch=gh-pages --cleanup",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "build": {
+    "appId": "BattleSlides",
+    "mac": {
+      "category": "com.battleslides"
+    }
   },
   "dependencies": {
     "animate.css": "^3.7.2",
@@ -30,6 +38,7 @@
     "@vue/cli-plugin-babel": "^3.9.0",
     "@vue/cli-plugin-typescript": "^3.9.0",
     "@vue/cli-service": "^3.9.0",
+    "electron-builder": "^20.28.4",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
     "pug": "^2.0.4",
