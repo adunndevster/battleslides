@@ -158,7 +158,7 @@
 </template>
 
 <script>
-import Reveal from 'reveal.js/js/reveal'
+import Reveal from 'reveal.js/js/reveal';
 import { GameMode, GameSettings, GAME_MODE_PARTY } from '../common/GameSettings';
 import router from '../router';
 import TeamLogo from '../components/TeamLogo';

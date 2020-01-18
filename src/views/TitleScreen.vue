@@ -58,6 +58,8 @@
 import setGameMode, { GAME_MODE_BATTLE, GAME_MODE_PARTY, GameSettings } from "../common/GameSettings";
 import router from '../router';
 import {FileSelector} from "../common/FileSelector";
+import * as io from 'socket.io-client';
+window.io = io;
 
 export default {
   name: "title-screen",

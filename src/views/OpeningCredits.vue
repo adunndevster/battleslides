@@ -13,7 +13,9 @@ import router from '../router';
     // setTimeout(() => {
     //   router.push("title-screen");
     // }, 1000)
+    
     let video = document.getElementById('vidIntro');
+    video.play();
     video.onended = (event) => {
       router.push("title-screen");
     }

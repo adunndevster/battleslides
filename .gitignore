@@ -1,3 +1,5 @@
 node_modules/*
 **/*.swf
 **/RECOVER*
+dist_electron/*
+dist/*
