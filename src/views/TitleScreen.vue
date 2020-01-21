@@ -7,7 +7,8 @@
     <video id="vidIntro" src="@/assets/animations/presentation_room.mp4" preload="true" autoplay loop />
 
     <transition name="slide">
-    <div class="menu" v-if="ShowMenu">
+      <div id="menu-container">
+        <div id="menu" class="menu" v-if="ShowMenu">
       <div class="bs-title"><img src="@/assets/ui/logo_black_solid.svg" /></div>
     
       <div class="columns game-options">
@@ -43,6 +44,7 @@
       </div>
       
     </div> 
+      </div>
     </transition>
 
     <transition name="slide">
@@ -79,6 +81,9 @@ export default {
     this.ShowOverlay = false;
 
     GameSettings.CleanSlideData();
+
+    window.onresize = this.onWindowResize;
+    this.onWindowResize();
 
     window.onerror = console.error = function() {
             var error = JSON.stringify(arguments);
@@ -304,6 +309,9 @@ export default {
       }
       setupFileTransfer();
   },
+  beforeDestroy() {
+      window.onresize = null;
+  },
   methods: {
     startBattleMode()
     {
@@ -322,6 +330,16 @@ export default {
     setFilesReceived(numFiles)
     {
       this.FilesReceived = numFiles;
+    },
+    onWindowResize(){
+      var scale = Math.min( 
+        window.innerWidth / 1920, 
+        window.innerHeight / 1200
+      );
+
+      var menu = document.getElementById('menu-container');
+      menu.style.transform = `scale(${scale})`;
+
     }
   }
 }
@@ -351,6 +369,16 @@ export default {
     top: 50%;
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
+  }
+
+  #menu-container
+  {
+    left: 0;
+    top: 0;
+    position: absolute;
+    width: 1920px;
+    height: 1200px;
+    transform-origin: left top;
   }
 
   .menu, .welcome

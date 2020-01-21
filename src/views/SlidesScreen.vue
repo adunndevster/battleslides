@@ -152,8 +152,10 @@
      </transition>
 
 </div>
-<TeamLogo class="team1-logo" v-show="ShowTeam1Logo" :team-logo-left="Team1LogoLeft" :team-logo-right="Team1LogoRight" :team-name="Team1Name" />
-<TeamLogo class="team2-logo" v-show="ShowTeam2Logo" :team-logo-left="Team2LogoLeft" :team-logo-right="Team2LogoRight" :team-name="Team2Name" />
+<div id="logos-container">
+  <TeamLogo class="team1-logo" v-show="ShowTeam1Logo" :team-logo-left="Team1LogoLeft" :team-logo-right="Team1LogoRight" :team-name="Team1Name" />
+  <TeamLogo class="team2-logo" v-show="ShowTeam2Logo" :team-logo-left="Team2LogoLeft" :team-logo-right="Team2LogoRight" :team-name="Team2Name" />
+</div>
 </div>
 </template>
 
@@ -236,6 +238,9 @@ export default {
     vue = this;
     Reveal.reset();
 
+    window.onresize = this.onWindowResize;
+    this.onWindowResize();
+
     this.setupAudio();
     if(vue.Round < 3)
     {
@@ -293,6 +298,16 @@ export default {
     }, 1);
   },
   methods: {
+    onWindowResize(){
+      var scale = Math.min( 
+        window.innerWidth / 1920, 
+        window.innerHeight / 1200
+      );
+
+      var logos = document.getElementById('logos-container');
+      logos.style.transform = `scale(${scale})`;
+
+    },
     setupAudio(){
       const revealDiv = document.querySelector('.reveal');
       this.slideTransitionSound = document.createElement("audio");
@@ -681,6 +696,16 @@ export default {
     position:absolute;
     width: 100%;
     height: 100vh;
+  }
+
+  #logos-container
+  {
+    left: 0;
+    top: 0;
+    position: absolute;
+    width: 1920px;
+    height: 1200px;
+    transform-origin: left top;
   }
 
   .team1-logo {

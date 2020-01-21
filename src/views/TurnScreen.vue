@@ -1,7 +1,7 @@
 <template>
 <div class="main">
-  <div class="intro-presentation-screen">
-    <video id="vid" preload="true" autoplay />
+  <video id="vid" preload="true" autoplay />
+  <div id="screen" class="intro-presentation-screen">
 
     <TeamLogo :team-logo-left="TeamLogoLeft" :team-logo-right="TeamLogoRight" :team-name="TeamName" v-show="Round < 3"/>
 
@@ -9,6 +9,7 @@
       Round {{Round}}
     </h2>
   </div>
+
 </div>
 </template>
 
@@ -33,6 +34,12 @@ import TeamLogo from '../components/TeamLogo';
   },
   mounted () {
     this.playVideo();
+
+    this.onTurnScreenResize();
+    window.onresize = this.onTurnScreenResize;
+  },
+  beforeDestroy() {
+      window.onresize = null;
   },
   methods: {
     playVideo()
@@ -52,6 +59,16 @@ import TeamLogo from '../components/TeamLogo';
         };
       }
       
+    },
+    onTurnScreenResize(){
+      var scale = Math.min( 
+        window.innerWidth / 1920, 
+        window.innerHeight / 1200
+      );
+
+      var screen = document.getElementById('screen');
+      screen.style.transform = `scale(${scale})`;
+
     }
   }
 })
@@ -59,23 +76,35 @@ export default class TurnScreen extends Vue {}
 </script>
 
 <style scoped>
+.intro-presentation-screen
+{
+  left: 0;
+  top: 0;
+  position: absolute;
+  width: 1920px;
+  height: 1200px;
+  transform-origin: left top;
+}
+
 .round-title
 {
   position: absolute;
-  left: 50%;
+  left: 44%;
   top: 8%;
-  transform: translate(-50%, -0%);
   font-family: 'Courier New', Courier, monospace;
   font-weight: 600;
   font-size: 60px;
 }
 
 .team-logo-container{
-  left: 50%;
-  top: 42%;
-  transform: translate(-50%, -100%);
+  position:absolute;
+  left: 43%;
+  top: 16%;
   width: 300px;
   height: 300px;
   font-size: 40px;
+  z-index: 90000;
 }
+
+
 </style>
