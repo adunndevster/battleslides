@@ -30,6 +30,8 @@ function createWindow () {
     win.loadURL('app://./index.html')
   }
 
+  win.setFullScreen(true);
+
   //production debugging.
   //win.webContents.openDevTools();
 
