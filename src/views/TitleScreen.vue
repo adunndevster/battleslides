@@ -75,7 +75,7 @@ export default {
     }
   },
   mounted() {
-
+    this.$emit('toggleScreenFade');
     window.getExternalIceServers = true;
     const vue = this;
     this.ShowOverlay = false;
@@ -349,11 +349,6 @@ export default {
 
 <style>
   body, html {
-    background: rgb(255,255,255); /* Old browsers */
-    background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(243,243,243,1) 62%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(243,243,243,1) 62%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(243,243,243,1) 62%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f3f3f3',GradientType=0 ); /* IE6-9 */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
 

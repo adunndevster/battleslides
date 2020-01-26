@@ -53,6 +53,7 @@ export default {
   },
   mounted () {
     vue = this;
+    this.$emit('toggleScreenFade');
     const vid1 = document.getElementById('vid1');
     const vid2 = document.getElementById('vid2');
     const quip = require("@/assets/animations/guy_up_close_kegels.mp4");
@@ -88,6 +89,10 @@ export default {
         vid2.autoplay = true;
       }
 
+      if(vue.playhead === vue.videoTrack.length)
+      {
+        vue.showSkipButton = false;
+      }
       if(vue.playhead === vue.videoTrack.length + 1)
       {
         router.push("turn-screen");

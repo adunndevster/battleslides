@@ -1,8 +1,31 @@
 <template>
   <div id="app">
-    <router-view/>
+    <transition
+        :name="transitionName"
+        mode="out-in"
+      >
+    <router-view v-on:toggleScreenFade="toggleScreenFade"/>
+    </transition>
   </div>
 </template>
+<script>
+import { Component, Vue } from 'vue-property-decorator';
+
+@Component({
+  
+  data: () => {
+    return {
+      transitionName: "fade",
+    }
+  },
+  methods: {
+    toggleScreenFade() {
+      this.transitionName = (this.transitionName == "fade") ? "none" : "fade";
+    }
+  }
+})
+export default class App extends Vue {}
+</script>
 
 <style lang="less">
 @import url('../node_modules/reveal.js/css/reveal.css');
@@ -33,6 +56,10 @@
   src: url("/fonts/Jo_wrote_a_lovesong.ttf");
 }
 
+body, html {
+  background-color: white;
+}
+
 #app {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -50,6 +77,18 @@
       color: #42b983;
     }
   }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 0.8s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0
 }
 
 </style>
