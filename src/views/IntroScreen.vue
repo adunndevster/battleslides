@@ -116,7 +116,7 @@ export default {
     function vidOnTimeUpdate(event)
     {
       const vid = event.target;
-      if(vid.src.indexOf(p3) != -1 && vid.currentTime >= 35 && vid.currentTime <= 36)
+      if(vid.src.indexOf(p3) != -1 && vid.currentTime >= 31 && vid.currentTime <= 33)
       {
         vue.ShowLogos = true;
       }

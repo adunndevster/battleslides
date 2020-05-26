@@ -69,13 +69,13 @@ export default {
           vue.ShowLogoRight = true;
         }
 
-        if(vid === vid1 && vid.currentTime >= 16 && vid.currentTime <= 17)
+        if(vid === vid1 && vid.currentTime >= 11 && vid.currentTime <= 13)
         {
           vue.ShowLogoLeft = randWinner;
           vue.ShowLogoRight = !randWinner;
         }
 
-        if(vid === vid1 && vid.currentTime >= 28 && vid.currentTime <= 29)
+        if(vid === vid1 && vid.currentTime >= 23 && vid.currentTime <= 25)
         {
           vue.ShowLogoLeft = false;
           vue.ShowLogoRight = false;

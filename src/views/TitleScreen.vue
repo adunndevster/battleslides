@@ -14,19 +14,19 @@
       <div class="columns game-options">
         <div class="column">
           <div @click="startBattleMode" class="game-option">
-            <h4>BATTLE MODE</h4>
+            <h4>PLAY</h4>
             <p>A three-round match between two witty teams for one unholy prize.</p>
           </div>
-          <div @click="startPartyMode" class="game-option">
+          <!-- <div @click="startPartyMode" class="game-option">
             <h4>PARTY MODE</h4>
             <p>A never-ending series of BattleSlides.</p>
-          </div>
+          </div> -->
         </div>
 
         <div class="column">
           <div class="files">
           <h4>ADD CUSTOM CONTENT</h4>
-          <p>Simply go to cutt.ly/battleslides!</p>
+          <p>Simply go to cutt.ly/battleslides</p>
           <br>
           <p>WARNING: Any content you add* will probably be seen by all the jokers playing this game with you :)</p>
           
@@ -47,12 +47,6 @@
       </div>
     </transition>
 
-    <transition name="slide">
-      <div class="welcome" v-if="ShowWelcome">
-        <img src="@/assets/images/welcome_image.png" />
-      </div>
-    </transition>
-
   </div>
 </template>
 
@@ -70,8 +64,7 @@ export default {
       FilesReceived: 0,
       AudienceCount: 0,
       ShowOverlay: true,
-      ShowMenu: true,
-      ShowWelcome: false
+      ShowMenu: true
     }
   },
   mounted() {
@@ -319,7 +312,6 @@ export default {
       GameSettings.SetupBattleModeGame();
       
       this.ShowMenu = false;
-      this.ShowWelcome = true;
       setTimeout(() => {router.push("intro-screen")}, 1500);
     },
     startPartyMode()
