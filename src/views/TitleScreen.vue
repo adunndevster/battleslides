@@ -26,7 +26,7 @@
         <div class="column">
           <div class="files">
           <h4>ADD CUSTOM CONTENT</h4>
-          <p>Simply go to cutt.ly/battleslides and join with the code: {{RoomNum}}</p>
+          <div>Simply go to cutt.ly/battleslides and join with the code: <div class="is-size-1">{{RoomNum}}</div></div>
           <br>
           <p>WARNING: Any content you add* will probably be seen by all the jokers playing this game with you :)</p>
           
@@ -89,7 +89,6 @@ export default {
         alert('Error:\n' + error);
     };
         function setupFileTransfer() {
-          alert(vue.RoomNum);
           joinARoom(`battleslides-${vue.RoomNum}`);
         }
         
@@ -429,11 +428,11 @@ export default {
 
   .files
   {
-    padding: 36px;
+    /* padding: 36px; */
     max-width: 550px;
     text-align: left;
     font-size: 18px;
-    margin-top: 20%;
+    margin-top: 10%;
   }
   .files h4{
     font-size: 40px;
