@@ -26,7 +26,7 @@
         <div class="column">
           <div class="files">
           <h4>ADD CUSTOM CONTENT</h4>
-          <p>Simply go to cutt.ly/battleslides</p>
+          <p>Simply go to cutt.ly/battleslides and join with the code: {{RoomNum}}</p>
           <br>
           <p>WARNING: Any content you add* will probably be seen by all the jokers playing this game with you :)</p>
           
@@ -61,6 +61,7 @@ export default {
   name: "title-screen",
   data: () => {
     return {
+      RoomNum: "AAAAA",
       FilesReceived: 0,
       AudienceCount: 0,
       ShowOverlay: true,
@@ -73,20 +74,23 @@ export default {
     const vue = this;
     this.ShowOverlay = false;
 
+    this.createRoom();
+
     GameSettings.CleanSlideData();
 
     window.onresize = this.onWindowResize;
     this.onWindowResize();
 
     window.onerror = console.error = function() {
-            var error = JSON.stringify(arguments);
-            if(error.indexOf('Blocked a frame with origin') !== -1) {
-                return;
-            }
-            alert('Error:\n' + error);
-        };
+        var error = JSON.stringify(arguments);
+        if(error.indexOf('Blocked a frame with origin') !== -1) {
+            return;
+        }
+        alert('Error:\n' + error);
+    };
         function setupFileTransfer() {
-          joinARoom("battleslides-1234");
+          alert(vue.RoomNum);
+          joinARoom(`battleslides-${vue.RoomNum}`);
         }
         
         var connection;
@@ -306,6 +310,19 @@ export default {
       window.onresize = null;
   },
   methods: {
+    createRoom()
+    {
+      function makeid(length) {
+        var result           = '';
+        var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        var charactersLength = characters.length;
+        for ( var i = 0; i < length; i++ ) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+      }
+      this.RoomNum = makeid(5);
+    },
     startBattleMode()
     {
       document.body.requestFullscreen();
